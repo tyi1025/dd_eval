@@ -2,3 +2,7 @@
 	path = extern/ddsim
 	url = https://github.com/cda-tum/ddsim.git
 	branch = mem-opt-ddsim-tw
+[submodule "extern/qcec"]
+	path = extern/qcec
+	url = https://github.com/cda-tum/qcec.git
+	branch = mem-opt-qcec-tw
