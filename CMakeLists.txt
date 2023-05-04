@@ -6,9 +6,9 @@ cmake_policy(SET CMP0069 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0069 NEW)
 
 project(
-  qcec
+  gr_dd_eval
   LANGUAGES CXX
-  DESCRIPTION "MQT QCEC - A tool for Quantum Circuit Equivalence Checking")
+  DESCRIPTION "DD Package Dynamic Memory Management")
 
 # check whether `modulename` is correctly cloned in the `extern` directory.
 macro(CHECK_SUBMODULE_PRESENT modulename)
@@ -21,14 +21,15 @@ macro(CHECK_SUBMODULE_PRESENT modulename)
   endif()
 endmacro()
 
-check_submodule_present(qfr)
+check_submodule_present(ddsim)
+check_submodule_present(qcec)
 
 # add main library code
 add_subdirectory(src)
 
 # add test code
-option(BUILD_QCEC_TESTS "Also build tests for QMAP project")
-if(BUILD_QCEC_TESTS)
+option(BUILD_DDEVAL_TESTS "Also build tests for DDEVAL project")
+if(BUILD_DDEVAL_TESTS)
   enable_testing()
   include(GoogleTest)
   add_subdirectory(test)
@@ -38,4 +39,5 @@ endif()
 option(BINDINGS "Configure for building Python bindings")
 if(BINDINGS)
   add_subdirectory(mqt/qcec)
+  add_subdirectory(mqt/ddsim)
 endif()
