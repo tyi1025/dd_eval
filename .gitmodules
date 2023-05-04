@@ -1,0 +1,4 @@
+[submodule "extern/ddsim"]
+	path = extern/ddsim
+	url = https://github.com/cda-tum/ddsim.git
+	branch = mem-opt-ddsim-tw
