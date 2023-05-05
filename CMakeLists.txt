@@ -6,9 +6,9 @@ cmake_policy(SET CMP0069 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0069 NEW)
 
 project(
-  gr_dd_eval
+  DDEval
   LANGUAGES CXX
-  DESCRIPTION "DD Package Dynamic Memory Management")
+  DESCRIPTION "Evaluating the performance of the MQT DD Package")
 
 # check whether `modulename` is correctly cloned in the `extern` directory.
 macro(CHECK_SUBMODULE_PRESENT modulename)
@@ -28,16 +28,10 @@ check_submodule_present(qcec)
 add_subdirectory(src)
 
 # add test code
-option(BUILD_DDEVAL_TESTS "Also build tests for DDEVAL project")
-if(BUILD_DDEVAL_TESTS)
+option(BUILD_DD_EVAL_TESTS "Also build tests for DDEval project")
+if(BUILD_DD_EVAL_TESTS)
   enable_testing()
   include(GoogleTest)
   add_subdirectory(test)
 endif()
 
-# add Python binding code
-option(BINDINGS "Configure for building Python bindings")
-if(BINDINGS)
-  add_subdirectory(mqt/qcec)
-  add_subdirectory(mqt/ddsim)
-endif()
