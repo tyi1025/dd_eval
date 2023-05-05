@@ -24,7 +24,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/extern/qcec" "extern/qcec"
 #  checker/zx/ZXChecker.cpp)
 
 add_library(
-    ${PROJECT_NAME})
+        ${PROJECT_NAME} INTERFACE)
 
 # set include directories
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)

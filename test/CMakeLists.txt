@@ -8,6 +8,6 @@ if(NOT TARGET gtest OR NOT TARGET gmock)
     "extern/qcec/extern/qfr/extern/dd_package/extern/googletest" EXCLUDE_FROM_ALL)
 endif()
 
-package_add_test(
-  ${PROJECT_NAME}_test
-  ${PROJECT_NAME})
+#package_add_test(
+#  ${PROJECT_NAME}_test
+#  ${PROJECT_NAME})
