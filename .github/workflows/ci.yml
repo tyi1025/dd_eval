@@ -47,12 +47,12 @@ jobs:
 #          cmake -S . -B buildCov -DCMAKE_BUILD_TYPE=Debug -DBUILD_QCEC_TESTS=ON -DENABLE_COVERAGE=ON
 #          cmake --build buildCov --config Debug --target qcec_test
 #          ctest -C Debug --output-on-failure --test-dir buildCov --repeat until-pass:3 --timeout 300
-      - if: runner.os == 'Linux'
-        name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.3
-        with:
-          fail_ci_if_error: true
-          flags: cpp
-          gcov: true
-          gcov_ignore: "extern/**/*"
-          token: ${{ secrets.CODECOV_TOKEN }}
+#      - if: runner.os == 'Linux'
+#        name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v3.1.3
+#        with:
+#          fail_ci_if_error: true
+#          flags: cpp
+#          gcov: true
+#          gcov_ignore: "extern/**/*"
+#          token: ${{ secrets.CODECOV_TOKEN }}
