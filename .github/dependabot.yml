@@ -16,10 +16,3 @@ updates:
       time: "06:00"
       timezone: "Europe/Vienna"
 
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "friday"
-      time: "06:00"
-      timezone: "Europe/Vienna"

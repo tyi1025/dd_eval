@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["cpp", "python"]
+        language: ["cpp"]
 
     steps:
       - name: Checkout repository
@@ -40,12 +40,10 @@ jobs:
           languages: ${{ matrix.language }}
           config-file: .github/codeql-config.yml
 
-      - if: matrix.language == 'cpp'
-        name: Configure CMake
-        run: cmake -S . -B build -DBINDINGS=ON -DBUILD_QCEC_TESTS=ON
+      - name: Configure CMake
+        run: cmake -S . -B build -DBINDINGS=ON
 
-      - if: matrix.language == 'cpp'
-        name: Build
+      - name: Build
         run: cmake --build build
 
       - name: Perform CodeQL Analysis
