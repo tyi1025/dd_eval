@@ -23,15 +23,13 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/extern/qcec" "extern/qcec"
 #  checker/dd/simulation/StateGenerator.cpp
 #  checker/zx/ZXChecker.cpp)
 
-add_library(
-        ${PROJECT_NAME} INTERFACE)
+add_library(${PROJECT_NAME} INTERFACE)
 
 # set include directories
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-#                                                  ${PROJECT_BINARY_DIR}/include)
+target_include_directories(${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include ${PROJECT_BINARY_DIR}/include)
 
 # link to the MQT libraries
-target_link_libraries(${PROJECT_NAME} PUBLIC MQT::ddsim MQT::qcec)
+target_link_libraries(${PROJECT_NAME} INTERFACE MQT::ddsim MQT::qcec)
 
 # add MQT alias
 add_library(MQT::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
