@@ -6,26 +6,34 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/extern/ddsim" "extern/ddsim"
 add_subdirectory("${PROJECT_SOURCE_DIR}/extern/qcec" "extern/qcec"
                  EXCLUDE_FROM_ALL)
 
-# add_library( ${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/include/checker
-# ${PROJECT_SOURCE_DIR}/include/Configuration.hpp
-# ${PROJECT_SOURCE_DIR}/include/EquivalenceCriterion.hpp
-# ${PROJECT_SOURCE_DIR}/include/EquivalenceCheckingManager.hpp
-# ${PROJECT_SOURCE_DIR}/include/ThreadSafeQueue.hpp
-# EquivalenceCheckingManager.cpp checker/EquivalenceChecker.cpp
-# checker/dd/DDEquivalenceChecker.cpp checker/dd/DDConstructionChecker.cpp
-# checker/dd/DDSimulationChecker.cpp checker/dd/DDAlternatingChecker.cpp
-# checker/dd/applicationscheme/GateCostApplicationScheme.cpp
-# checker/dd/simulation/StateGenerator.cpp checker/zx/ZXChecker.cpp)
+if(NOT TARGET nlohmann_json)
+  add_subdirectory("${PROJECT_SOURCE_DIR}/extern/ddsim/extern/qfr/extern/json" "qfr/json"
+                   EXCLUDE_FROM_ALL)
+endif()
 
-add_library(${PROJECT_NAME} INTERFACE)
+if(NOT TARGET ${PROJECT_NAME})
+    add_library(
+        ${PROJECT_NAME}
+        ${PROJECT_SOURCE_DIR}/include/Executor.hpp
+        ${PROJECT_SOURCE_DIR}/include/Result.hpp
+        ${PROJECT_SOURCE_DIR}/include/ResultBase.hpp
+        ${PROJECT_SOURCE_DIR}/include/SimulationTask.hpp
+        ${PROJECT_SOURCE_DIR}/include/Task.hpp
+        ${PROJECT_SOURCE_DIR}/include/VerificationTask.hpp
+        Result.cpp
+        SimulationTask.cpp
+        VerificationTask.cpp)
 
 # set include directories
-target_include_directories(
-  ${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include
+    target_include_directories(
+        ${PROJECT_NAME} INTERFACE ${PROJECT_SOURCE_DIR}/include
                             ${PROJECT_BINARY_DIR}/include)
 
 # link to the MQT libraries
-target_link_libraries(${PROJECT_NAME} INTERFACE MQT::ddsim MQT::qcec)
+    target_link_libraries(${PROJECT_NAME} INTERFACE MQT::ddsim MQT::qcec)
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json)
 
 # add MQT alias
-add_library(MQT::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+    add_library(MQT::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+endif()
