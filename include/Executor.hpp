@@ -5,15 +5,13 @@
 #ifndef DD_EVAL_EXECUTOR_HPP
 #define DD_EVAL_EXECUTOR_HPP
 
-#endif //DD_EVAL_EXECUTOR_HPP
+#endif // DD_EVAL_EXECUTOR_HPP
 
 #include "Task.hpp"
 
 class Executor {
 private:
-    Task *task;
+  Task* task;
 };
 
-void executeTask(Task *task) {
-    task->execute();
-}
+void executeTask(Task* task) { task->execute(); }

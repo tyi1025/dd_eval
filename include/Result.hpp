@@ -5,24 +5,23 @@
 #ifndef DD_EVAL_RESULT_HPP
 #define DD_EVAL_RESULT_HPP
 
-
 #include "ResultBase.hpp"
-#include <string>
+
 #include <nlohmann/json.hpp>
+#include <string>
 
 using json = nlohmann::json;
 
 class Result : public ResultBase {
 public:
-    Result(const std::string& name, double value);
+  Result(const std::string& name, double value);
 
-    json toJson() const override;
-    std::string toString() const override;
+  json        toJson() const override;
+  std::string toString() const override;
 
 private:
-    std::string name_;
-    double value_;
+  std::string name_;
+  double      value_;
 };
 
-#endif  // DD_EVAL_RESULT_HPP
-
+#endif // DD_EVAL_RESULT_HPP

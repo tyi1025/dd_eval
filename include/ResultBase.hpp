@@ -11,12 +11,10 @@ using json = nlohmann::json;
 
 class ResultBase {
 public:
-    virtual ~ResultBase() = default;
+  virtual ~ResultBase() = default;
 
-    virtual json toJson() const = 0;
-    virtual std::string toString() const = 0;
+  virtual json        toJson() const   = 0;
+  virtual std::string toString() const = 0;
 };
 
-
-#endif //DD_EVAL_RESULTBASE_HPP
-
+#endif // DD_EVAL_RESULTBASE_HPP

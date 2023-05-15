@@ -3,6 +3,4 @@
 //
 
 #include "../include/SimulationTask.hpp"
-//take one circuit
-
-
+// take one circuit

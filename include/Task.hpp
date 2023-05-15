@@ -5,11 +5,11 @@
 #ifndef DD_EVAL_TASK_HPP
 #define DD_EVAL_TASK_HPP
 
-#endif //DD_EVAL_TASK_HPP
+#endif // DD_EVAL_TASK_HPP
 
 #include "Result.hpp"
 
 class Task {
 public:
-    virtual Result execute() = 0;
+  virtual Result execute() = 0;
 };
