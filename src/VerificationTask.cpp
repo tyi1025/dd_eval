@@ -1,2 +1,2 @@
 #include "VerificationTask.hpp"
-//take two circuits
+// take two circuits

@@ -6,6 +6,6 @@ using json = nlohmann::json;
 
 class Task {
 public:
-    virtual ~Task() = default;
-    virtual std::string getIdentifier() = 0;
+  virtual ~Task()                     = default;
+  virtual std::string getIdentifier() = 0;
 };
