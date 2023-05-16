@@ -1,19 +1,21 @@
-//
-// Created by Tianyi Wang on 5/14/23.
-//
-
-#ifndef DD_EVAL_EXECUTOR_HPP
-#define DD_EVAL_EXECUTOR_HPP
-
-#endif //DD_EVAL_EXECUTOR_HPP
+#pragma once
 
 #include "Task.hpp"
+#include <memory>
+
 
 class Executor {
-private:
-    Task *task;
-};
+public:
+    virtual ~Executor() = default;
+    virtual json executeTask() = 0;
 
-void executeTask(Task *task) {
-    task->execute();
-}
+    const std::shared_ptr<Task> &getTask() const;
+
+    explicit Executor(){
+    };
+
+    void setTask(const std::shared_ptr<Task> &task);
+    virtual std::string getIdentifier() = 0;
+private:
+    std::shared_ptr<Task> task;
+};

@@ -1,17 +1,13 @@
-//
-// Created by Tianyi Wang on 5/14/23.
-//
-
-#ifndef DD_EVAL_SIMULATIONTASK_HPP
-#define DD_EVAL_SIMULATIONTASK_HPP
-
-#endif //DD_EVAL_SIMULATIONTASK_HPP
+#pragma once
 
 #include "Task.hpp"
+#include "QuantumComputation.hpp"
 
 class SimulationTask : public Task {
-//public:
-//    SimulationTask(QuantumCircuit qc);
-//private:
-//    QuantumCircuit qc_;
+public:
+    explicit SimulationTask(qc::QuantumComputation qc) {
+        this->qc = qc.clone();
+    };
+private:
+    qc::QuantumComputation qc;
 };

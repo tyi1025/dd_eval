@@ -1,15 +1,11 @@
-//
-// Created by Tianyi Wang on 5/14/23.
-//
+#pragma once
 
-#ifndef DD_EVAL_TASK_HPP
-#define DD_EVAL_TASK_HPP
+#include <nlohmann/json.hpp>
 
-#endif //DD_EVAL_TASK_HPP
-
-#include "Result.hpp"
+using json = nlohmann::json;
 
 class Task {
 public:
-    virtual Result execute() = 0;
+    virtual ~Task() = default;
+    virtual std::string getIdentifier() = 0;
 };
