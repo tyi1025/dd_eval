@@ -25,8 +25,8 @@ class Executor::Executor {
 
 // add adapter for simulators
 
-void Executor::setTask(const std::shared_ptr<Task>& newTask) {
-  this->task = newTask;
+void Executor::setTask(const std::shared_ptr<Task>& task) {
+  this->m_task = task;
 }
 
-const std::shared_ptr<Task>& Executor::getTask() { return task; }
+const std::shared_ptr<Task>& Executor::getTask() { return m_task; }

@@ -14,5 +14,5 @@ public:
   virtual std::string          getIdentifier() = 0;
 
 private:
-  std::shared_ptr<Task> task;
+  std::shared_ptr<Task> m_task;
 };
