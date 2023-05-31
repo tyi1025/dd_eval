@@ -9,10 +9,11 @@ public:
   virtual ~Executor()        = default;
   virtual json executeTask() = 0;
   explicit Executor()        = default;
-  const std::shared_ptr<Task>& getTask();
-  void                         setTask(const std::shared_ptr<Task>& task);
-  virtual std::string          getIdentifier() = 0;
+  //  virtual const std::unique_ptr<Task>& getTask();
+  //  virtual void                         setTask(const std::unique_ptr<Task>
+  //  &task);
+  virtual std::string getIdentifier() = 0;
 
 private:
-  std::shared_ptr<Task> m_task;
+  std::unique_ptr<Task> mTask;
 };

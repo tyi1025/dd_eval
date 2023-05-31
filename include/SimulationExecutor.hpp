@@ -5,8 +5,15 @@
 
 class SimulationExecutor : public Executor {
 public:
-  explicit SimulationExecutor(const std::shared_ptr<SimulationTask>& task) {
+  SimulationExecutor() = default;
+  explicit SimulationExecutor(std::unique_ptr<SimulationTask>& task) {
     setTask(task);
   }
-  json executeTask() override;
+
+  const std::unique_ptr<Task>& getTask();
+
+  void setTask(std::unique_ptr<SimulationTask>& task);
+
+private:
+  std::unique_ptr<SimulationTask> mTask;
 };

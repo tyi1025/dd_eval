@@ -5,8 +5,16 @@
 
 class SimulationTask : public Task {
 public:
-  explicit SimulationTask(qc::QuantumComputation qc) { this->qc = qc.clone(); };
+  SimulationTask() = default;
 
-private:
-  qc::QuantumComputation qc;
+  explicit SimulationTask(std::unique_ptr<qc::QuantumComputation> qc)
+      : qc(std::move(qc)) {}
+
+protected:
+  std::unique_ptr<qc::QuantumComputation> qc;
+
+public:
+  std::unique_ptr<qc::QuantumComputation>& getQc() { return qc; }
+
+  std::string getIdentifier() override;
 };
