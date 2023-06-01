@@ -10,7 +10,7 @@ public:
     setTask(task);
   }
 
-  const std::unique_ptr<Task>& getTask();
+  const std::unique_ptr<SimulationTask>& getMTask();
 
   void setTask(std::unique_ptr<SimulationTask>& task);
 
