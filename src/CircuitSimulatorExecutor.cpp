@@ -21,7 +21,6 @@ std::string CircuitSimulatorExecutor::getIdentifier() {
 json CircuitSimulatorExecutor::executeTask() {
   json result;
   auto start = std::chrono::high_resolution_clock::now();
-  std::cout << "I'm here in testa\n";
 
   // execute the actual task
   const auto results = mCircuitSimulator->simulate(1024U);
@@ -35,7 +34,6 @@ json CircuitSimulatorExecutor::executeTask() {
   result["runtime"]            = runtime.count();
   std::string const identifier = "test identifier";
   //      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
-  std::cout << "I'm here in testc\n";
   result["identifier"] = identifier;
 
   result["00"] = results.count("00");
@@ -43,7 +41,6 @@ json CircuitSimulatorExecutor::executeTask() {
   result["10"] = results.count("10");
   result["11"] = results.count("11");
   // what about more qubits？
-  std::cout << "I'm here in testd\n";
   return result;
   //    return SimulationExecutor::executeTask();
 }
