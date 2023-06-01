@@ -11,4 +11,4 @@ if(NOT TARGET gtest OR NOT TARGET gmock)
 endif()
 
 package_add_test(${PROJECT_NAME}_test ${PROJECT_NAME} test_ddsim_simple.cpp
-                 test_qcec_simple.cpp test_sim.cpp)
+                 test_qcec_simple.cpp test_simexec_simple.cpp test_simexec.cpp)
