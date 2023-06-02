@@ -14,7 +14,5 @@ protected:
   std::unique_ptr<qc::QuantumComputation> qc;
 
 public:
-  std::unique_ptr<qc::QuantumComputation>& getQc() { return qc; }
-
   std::string getIdentifier() override;
 };
