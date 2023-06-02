@@ -51,9 +51,16 @@ protected:
     qc2ForTask       = std::make_unique<qc::QuantumComputation>(qc2.clone());
     verificationTask = std::make_unique<VerificationTask>(
         std::move(qc1ForTask), std::move(qc2ForTask));
+
     equivalenceCheckingManager =
         std::make_unique<ec::EquivalenceCheckingManager>(qc1.clone(),
                                                          qc2.clone());
+    equivalenceCheckingManager->setAlternatingChecker(true);
+    equivalenceCheckingManager->setSimulationChecker(false);
+    equivalenceCheckingManager->setConstructionChecker(false);
+    equivalenceCheckingManager->setZXChecker(false);
+    // This should probably happen inside src?
+
     alternatingVerificationExecutor =
         std::make_unique<AlternatingVerificationExecutor>();
     alternatingVerificationExecutor->setEquivalenceCheckingManager(
