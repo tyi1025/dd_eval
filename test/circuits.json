@@ -1,7 +1,7 @@
 [
   {
-    "description": "empty_circuit",
-    "initial_circuit": "OPENQASM 2.0;include \"qelib1.inc\";qreg q[2];\n",
-    "expected_00": 1024
+    "description": "two_qubit_circuit_with_two_x_gates",
+    "initial_circuit": "OPENQASM 2.0;include \"qelib1.inc\";qreg q[2];x q[0];x q[1];\n",
+    "expected_11": 1024
   }
 ]

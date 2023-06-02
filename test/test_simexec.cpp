@@ -10,14 +10,14 @@ struct TestConfigurationDDSIM {
   std::string initialCircuit;
 
   // expected output
-  std::size_t expected00{};
+  std::size_t expected11{};
 };
 
 // NOLINTNEXTLINE (readability-identifier-naming)
 inline void from_json(const nlohmann::json& j, TestConfigurationDDSIM& test) {
   test.description    = j.at("description").get<std::string>();
   test.initialCircuit = j.at("initial_circuit").get<std::string>();
-  test.expected00     = j.at("expected_00").get<std::size_t>();
+  test.expected11     = j.at("expected_11").get<std::size_t>();
 }
 
 static std::vector<TestConfigurationDDSIM> getTests(const std::string& path) {
@@ -60,9 +60,9 @@ INSTANTIATE_TEST_SUITE_P(
       return inf.param.description;
     });
 
-TEST_P(DDSIMExecTest, EmptyCircuit) {
+TEST_P(DDSIMExecTest, TwoQubitCircuitWithTwoXGates) {
   json const result = circuitSimulatorExecutor->executeTask();
   std::cout << "Results:" << std::endl;
   printAll(result);
-  EXPECT_EQ(result["00"], test.expected00);
+  EXPECT_EQ(result["11"], test.expected11);
 }
