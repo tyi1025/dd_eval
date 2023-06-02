@@ -5,17 +5,14 @@
 
 class AlternatingVerificationExecutor : public VerificationExecutor {
 public:
-  AlternatingVerificationExecutor() = default;
-  // checker and task must be set before use
+  AlternatingVerificationExecutor() = delete;
+
+  explicit AlternatingVerificationExecutor(
+      std::unique_ptr<VerificationTask> verificationTask);
 
   json        executeTask() override;
   std::string getIdentifier() override;
 
 private:
   std::unique_ptr<ec::EquivalenceCheckingManager> mEquivalenceCheckingManager;
-
-public:
-  void
-  setEquivalenceCheckingManager(std::unique_ptr<ec::EquivalenceCheckingManager>&
-                                    equivalenceCheckingManager);
 };

@@ -10,9 +10,9 @@ public:
   explicit SimulationTask(std::unique_ptr<qc::QuantumComputation> qc)
       : qc(std::move(qc)) {}
 
+  [[nodiscard]] const std::unique_ptr<qc::QuantumComputation>& getQc() const;
+  std::string getIdentifier() override;
+
 protected:
   std::unique_ptr<qc::QuantumComputation> qc;
-
-public:
-  std::string getIdentifier() override;
 };

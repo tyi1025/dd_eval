@@ -5,16 +5,14 @@
 
 class CircuitSimulatorExecutor : public SimulationExecutor {
 public:
-  CircuitSimulatorExecutor() = default;
-  // simulator and task must be set before use
+  CircuitSimulatorExecutor() = delete;
+
+  explicit CircuitSimulatorExecutor(
+      std::unique_ptr<SimulationTask> simulationTask);
 
   json        executeTask() override;
   std::string getIdentifier() override;
 
 private:
   std::unique_ptr<CircuitSimulator<>> mCircuitSimulator;
-
-public:
-  void
-  setCircuitSimulator(std::unique_ptr<CircuitSimulator<>>& circuitSimulator);
 };

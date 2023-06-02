@@ -1,5 +1,18 @@
 #include "AlternatingVerificationExecutor.hpp"
 
+AlternatingVerificationExecutor::AlternatingVerificationExecutor(
+    std::unique_ptr<VerificationTask> verificationTask) {
+  mTask    = std::move(verificationTask);
+  auto qc1 = mTask->getQc1()->clone();
+  auto qc2 = mTask->getQc2()->clone();
+  mEquivalenceCheckingManager =
+      std::make_unique<ec::EquivalenceCheckingManager>(qc1, qc2);
+  mEquivalenceCheckingManager->setAlternatingChecker(true);
+  mEquivalenceCheckingManager->setSimulationChecker(false);
+  mEquivalenceCheckingManager->setConstructionChecker(false);
+  mEquivalenceCheckingManager->setZXChecker(false);
+}
+
 std::string AlternatingVerificationExecutor::getIdentifier() {
   return "alt_ver_exe" + mTask->getIdentifier();
 }
@@ -20,10 +33,4 @@ json AlternatingVerificationExecutor::executeTask() {
   result["identifier"] = identifier;
 
   return result;
-}
-
-void AlternatingVerificationExecutor::setEquivalenceCheckingManager(
-    std::unique_ptr<ec::EquivalenceCheckingManager>&
-        equivalenceCheckingManager) {
-  mEquivalenceCheckingManager = std::move(equivalenceCheckingManager);
 }

@@ -47,33 +47,21 @@ protected:
     qc2.import(ss2, qc::Format::OpenQASM);
     std::cout << "Circuit 2:\n" << qc2 << std::endl;
 
-    qc1ForTask       = std::make_unique<qc::QuantumComputation>(qc1.clone());
-    qc2ForTask       = std::make_unique<qc::QuantumComputation>(qc2.clone());
-    verificationTask = std::make_unique<VerificationTask>(
-        std::move(qc1ForTask), std::move(qc2ForTask));
-
-    equivalenceCheckingManager =
-        std::make_unique<ec::EquivalenceCheckingManager>(qc1.clone(),
-                                                         qc2.clone());
-    equivalenceCheckingManager->setAlternatingChecker(true);
-    equivalenceCheckingManager->setSimulationChecker(false);
-    equivalenceCheckingManager->setConstructionChecker(false);
-    equivalenceCheckingManager->setZXChecker(false);
-    // This should probably happen inside src?
+    qc1Ver           = std::make_unique<qc::QuantumComputation>(qc1.clone());
+    qc2Ver           = std::make_unique<qc::QuantumComputation>(qc2.clone());
+    verificationTask = std::make_unique<VerificationTask>(std::move(qc1Ver),
+                                                          std::move(qc2Ver));
 
     alternatingVerificationExecutor =
-        std::make_unique<AlternatingVerificationExecutor>();
-    alternatingVerificationExecutor->setEquivalenceCheckingManager(
-        equivalenceCheckingManager);
-    alternatingVerificationExecutor->setTask(verificationTask);
+        std::make_unique<AlternatingVerificationExecutor>(
+            std::move(verificationTask));
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
 
-  std::unique_ptr<qc::QuantumComputation>         qc1ForTask;
-  std::unique_ptr<qc::QuantumComputation>         qc2ForTask;
-  std::unique_ptr<VerificationTask>               verificationTask;
-  std::unique_ptr<ec::EquivalenceCheckingManager> equivalenceCheckingManager;
+  std::unique_ptr<qc::QuantumComputation> qc1Ver;
+  std::unique_ptr<qc::QuantumComputation> qc2Ver;
+  std::unique_ptr<VerificationTask>       verificationTask;
   std::unique_ptr<AlternatingVerificationExecutor>
                         alternatingVerificationExecutor;
   TestConfigurationQCEC test;

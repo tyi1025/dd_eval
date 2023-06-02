@@ -40,22 +40,16 @@ protected:
     qc.import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << qc;
 
-    qcForTask      = std::make_unique<qc::QuantumComputation>(qc.clone());
-    qcForSim       = std::make_unique<qc::QuantumComputation>(qc.clone());
-    simulationTask = std::make_unique<SimulationTask>(std::move(qcForTask));
-    circuitSimulator =
-        std::make_unique<CircuitSimulator<>>(std::move(qcForSim));
-    circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
-    circuitSimulatorExecutor->setCircuitSimulator(circuitSimulator);
-    circuitSimulatorExecutor->setTask(simulationTask);
+    qcSim          = std::make_unique<qc::QuantumComputation>(qc.clone());
+    simulationTask = std::make_unique<SimulationTask>(std::move(qcSim));
+    circuitSimulatorExecutor =
+        std::make_unique<CircuitSimulatorExecutor>(std::move(simulationTask));
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
 
-  std::unique_ptr<qc::QuantumComputation>   qcForTask;
-  std::unique_ptr<qc::QuantumComputation>   qcForSim;
+  std::unique_ptr<qc::QuantumComputation>   qcSim;
   std::unique_ptr<SimulationTask>           simulationTask;
-  std::unique_ptr<CircuitSimulator<>>       circuitSimulator;
   std::unique_ptr<CircuitSimulatorExecutor> circuitSimulatorExecutor;
   TestConfigurationDDSIM                    test;
 };

@@ -1,5 +1,12 @@
 #include "CircuitSimulatorExecutor.hpp"
 
+CircuitSimulatorExecutor::CircuitSimulatorExecutor(
+    std::unique_ptr<SimulationTask> simulationTask) {
+  mTask   = std::move(simulationTask);
+  auto qc = std::make_unique<qc::QuantumComputation>(mTask->getQc()->clone());
+  mCircuitSimulator = std::make_unique<CircuitSimulator<>>(std::move(qc));
+}
+
 std::string CircuitSimulatorExecutor::getIdentifier() {
   return "circ_sim_exe" + mTask->getIdentifier();
 }
@@ -28,9 +35,4 @@ json CircuitSimulatorExecutor::executeTask() {
   result["identifier"] = identifier;
 
   return result;
-}
-
-void CircuitSimulatorExecutor::setCircuitSimulator(
-    std::unique_ptr<CircuitSimulator<>>& circuitSimulator) {
-  mCircuitSimulator = std::move(circuitSimulator);
 }

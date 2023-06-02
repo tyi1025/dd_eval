@@ -14,4 +14,9 @@ public:
 protected:
   std::unique_ptr<qc::QuantumComputation> qc1;
   std::unique_ptr<qc::QuantumComputation> qc2;
+
+public:
+  [[nodiscard]] const std::unique_ptr<qc::QuantumComputation>& getQc1() const;
+
+  [[nodiscard]] const std::unique_ptr<qc::QuantumComputation>& getQc2() const;
 };
