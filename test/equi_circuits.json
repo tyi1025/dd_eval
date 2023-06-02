@@ -1,0 +1,8 @@
+[
+  {
+    "description": "empty_circuits",
+    "initial_circuit1": "OPENQASM 2.0;include \"qelib1.inc\";qreg q[2];\n",
+    "initial_circuit2": "OPENQASM 2.0;include \"qelib1.inc\";qreg q[2];\n",
+    "expected_equivalence": "equivalent"
+  }
+]
