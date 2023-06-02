@@ -32,9 +32,6 @@ protected:
   void SetUp() override {
     test = GetParam();
 
-    if (test.initialCircuit.empty()) {
-      throw std::runtime_error("No circuit!");
-    }
     std::stringstream      ss(test.initialCircuit);
     qc::QuantumComputation qc{};
     qc.import(ss, qc::Format::OpenQASM);

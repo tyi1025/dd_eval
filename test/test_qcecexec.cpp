@@ -34,9 +34,6 @@ protected:
   void SetUp() override {
     test = GetParam();
 
-    if (test.initialCircuit1.empty() or test.initialCircuit2.empty()) {
-      throw std::runtime_error("Circuit missing!");
-    }
     std::stringstream      ss1(test.initialCircuit1);
     qc::QuantumComputation qc1{};
     qc1.import(ss1, qc::Format::OpenQASM);
