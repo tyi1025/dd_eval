@@ -60,9 +60,7 @@ protected:
 };
 
 INSTANTIATE_TEST_SUITE_P(
-    Circuits, SimulatorTest,
-    testing::ValuesIn(getTests(
-        "/Users/tianyiwang/Documents/tum/GR/repos/dd_eval/test/circuits.json")),
+    Circuits, SimulatorTest, testing::ValuesIn(getTests("circuits.json")),
     [](const testing::TestParamInfo<SimulatorTest::ParamType>& inf) {
       return inf.param.description;
     });
