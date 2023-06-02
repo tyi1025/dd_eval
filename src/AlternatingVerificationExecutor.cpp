@@ -3,7 +3,7 @@
 class AlternatingVerificationExecutor::AlternatingVerificationExecutor {};
 
 std::string AlternatingVerificationExecutor::getIdentifier() {
-  return "alt_ver_exe" + mVerTask->getIdentifier();
+  return "alt_ver_exe" + mTask->getIdentifier();
 }
 
 json AlternatingVerificationExecutor::executeTask() {
@@ -18,25 +18,10 @@ json AlternatingVerificationExecutor::executeTask() {
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
   result["runtime"] = runtime.count();
   std::string const identifier =
-      this->getMVerTask()->getIdentifier() + "_" + this->getIdentifier();
+      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
   result["identifier"] = identifier;
 
   return result;
-}
-
-const std::unique_ptr<VerificationTask>&
-AlternatingVerificationExecutor::getMVerTask() const {
-  return mVerTask;
-}
-
-void AlternatingVerificationExecutor::setMVerTask(
-    std::unique_ptr<VerificationTask>& verTask) {
-  mVerTask = std::move(verTask);
-}
-
-const std::unique_ptr<ec::EquivalenceCheckingManager>&
-AlternatingVerificationExecutor::getEquivalenceCheckingManager() {
-  return mEquivalenceCheckingManager;
 }
 
 void AlternatingVerificationExecutor::setEquivalenceCheckingManager(

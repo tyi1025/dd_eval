@@ -1,10 +1,9 @@
 #include "VerificationExecutor.hpp"
 
-const std::unique_ptr<VerificationTask>&
-VerificationExecutor::getMTask() const {
+const std::unique_ptr<VerificationTask>& VerificationExecutor::getTask() const {
   return mTask;
 }
 
-void VerificationExecutor::setMTask(std::unique_ptr<VerificationTask>& task) {
+void VerificationExecutor::setTask(std::unique_ptr<VerificationTask>& task) {
   mTask = std::move(task);
 }

@@ -7,11 +7,11 @@ class VerificationExecutor : public Executor {
 public:
   VerificationExecutor() = default;
 
-private:
+protected:
   std::unique_ptr<VerificationTask> mTask;
 
 public:
-  const std::unique_ptr<VerificationTask>& getMTask() const;
+  [[nodiscard]] const std::unique_ptr<VerificationTask>& getTask() const;
 
-  void setMTask(std::unique_ptr<VerificationTask>& task);
+  void setTask(std::unique_ptr<VerificationTask>& task);
 };

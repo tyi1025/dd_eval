@@ -7,10 +7,10 @@ class SimulationExecutor : public Executor {
 public:
   SimulationExecutor() = default;
 
-  const std::unique_ptr<SimulationTask>& getMTask();
+  const std::unique_ptr<SimulationTask>& getTask();
 
   void setTask(std::unique_ptr<SimulationTask>& task);
 
-private:
+protected:
   std::unique_ptr<SimulationTask> mTask;
 };

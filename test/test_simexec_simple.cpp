@@ -12,7 +12,7 @@ TEST(DDSIMExecSimpleTest, EmptyCircuit) {
   auto circuitSimulator = std::make_unique<CircuitSimulator<>>(std::move(qc));
   auto circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
   circuitSimulatorExecutor->setCircuitSimulator(circuitSimulator);
-  circuitSimulatorExecutor->setMSimTask(simulationTask);
+  circuitSimulatorExecutor->setTask(simulationTask);
   json const result = circuitSimulatorExecutor->executeTask();
 
   EXPECT_EQ(1024, result["00"]);

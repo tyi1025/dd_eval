@@ -16,7 +16,7 @@ TEST(QCECExecSimpleTest, EmptyCircuits) {
       std::make_unique<ec::EquivalenceCheckingManager>(clonedQC2, clonedQC3);
   auto alternatingVerificationExecutor =
       std::make_unique<AlternatingVerificationExecutor>();
-  alternatingVerificationExecutor->setMVerTask(verificationTask);
+  alternatingVerificationExecutor->setTask(verificationTask);
   alternatingVerificationExecutor->setEquivalenceCheckingManager(
       equivalenceCheckingManager);
 

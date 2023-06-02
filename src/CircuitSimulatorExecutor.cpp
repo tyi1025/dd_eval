@@ -3,7 +3,7 @@
 class CircuitSimulatorExecutor::CircuitSimulatorExecutor {};
 
 std::string CircuitSimulatorExecutor::getIdentifier() {
-  return "circ_sim_exe" + mSimTask->getIdentifier();
+  return "circ_sim_exe" + mTask->getIdentifier();
 }
 
 template <typename KTy, typename VTy>
@@ -26,25 +26,10 @@ json CircuitSimulatorExecutor::executeTask() {
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
   result["runtime"] = runtime.count();
   std::string const identifier =
-      this->getMSimTask()->getIdentifier() + "_" + this->getIdentifier();
+      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
   result["identifier"] = identifier;
 
   return result;
-}
-
-const std::unique_ptr<SimulationTask>&
-CircuitSimulatorExecutor::getMSimTask() const {
-  return mSimTask;
-}
-
-void CircuitSimulatorExecutor::setMSimTask(
-    std::unique_ptr<SimulationTask>& simTask) {
-  mSimTask = std::move(simTask);
-}
-
-const std::unique_ptr<CircuitSimulator<>>&
-CircuitSimulatorExecutor::getCircuitSimulator() {
-  return mCircuitSimulator;
 }
 
 void CircuitSimulatorExecutor::setCircuitSimulator(

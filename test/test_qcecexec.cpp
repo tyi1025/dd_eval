@@ -58,7 +58,7 @@ protected:
         std::make_unique<AlternatingVerificationExecutor>();
     alternatingVerificationExecutor->setEquivalenceCheckingManager(
         equivalenceCheckingManager);
-    alternatingVerificationExecutor->setMVerTask(verificationTask);
+    alternatingVerificationExecutor->setTask(verificationTask);
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }

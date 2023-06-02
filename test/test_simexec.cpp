@@ -47,7 +47,7 @@ protected:
         std::make_unique<CircuitSimulator<>>(std::move(qcForSim));
     circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
     circuitSimulatorExecutor->setCircuitSimulator(circuitSimulator);
-    circuitSimulatorExecutor->setMSimTask(simulationTask);
+    circuitSimulatorExecutor->setTask(simulationTask);
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }

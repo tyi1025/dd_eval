@@ -12,14 +12,6 @@ public:
   std::string getIdentifier() override;
 
 private:
-  std::unique_ptr<SimulationTask> mSimTask;
-
-public:
-  [[nodiscard]] const std::unique_ptr<SimulationTask>& getMSimTask() const;
-
-  void setMSimTask(std::unique_ptr<SimulationTask>& simTask);
-
-private:
   std::unique_ptr<CircuitSimulator<>> mCircuitSimulator;
 
 public:
