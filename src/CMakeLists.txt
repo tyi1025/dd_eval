@@ -14,12 +14,9 @@ if(NOT TARGET ${PROJECT_NAME})
     ${PROJECT_SOURCE_DIR}/include/VerificationExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/CircuitSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/AlternatingVerificationExecutor.hpp
-    # ${PROJECT_SOURCE_DIR}/include/Results.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/SimulationTask.hpp
     ${PROJECT_SOURCE_DIR}/include/VerificationTask.hpp
-    # Result.cpp
-    Executor.cpp
     SimulationExecutor.cpp
     CircuitSimulatorExecutor.cpp
     VerificationExecutor.cpp

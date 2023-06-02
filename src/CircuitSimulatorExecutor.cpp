@@ -1,21 +1,10 @@
 #include "CircuitSimulatorExecutor.hpp"
 
-class CircuitSimulatorExecutor::CircuitSimulatorExecutor {
-  //    CircuitSimulatorExecutor(std::unique_ptr<SimulationTask> &simTask) {
-  //        setMSimTask(simTask);
-  //    }
-  //    CircuitSimulatorExecutor(std::unique_ptr<SimulationTask> &simTask) {
-  //        mSimTask = std::move(simTask);
-  //    }
-  //    CircuitSimulatorExecutor() {
-  //        mCircuitSimulator =
-  //        CircuitSimulator(std::move(this->getMSimTask()->getQc()));
-  //    }
-};
+class CircuitSimulatorExecutor::CircuitSimulatorExecutor {};
 
 std::string CircuitSimulatorExecutor::getIdentifier() {
   return {"This is a circuit simulator executor"};
-  // refactor
+  // refactor. how?
 }
 
 json CircuitSimulatorExecutor::executeTask() {
@@ -24,7 +13,6 @@ json CircuitSimulatorExecutor::executeTask() {
 
   // execute the actual task
   const auto results = mCircuitSimulator->simulate(1024U);
-  //  std::cout << results << std::endl;
   // use the results
   // Add memory usage
 
@@ -40,9 +28,8 @@ json CircuitSimulatorExecutor::executeTask() {
   result["01"] = results.count("01");
   result["10"] = results.count("10");
   result["11"] = results.count("11");
-  // what about more qubits？
+  // what about circuits with not 2 qubits？
   return result;
-  //    return SimulationExecutor::executeTask();
 }
 
 const std::unique_ptr<SimulationTask>&
@@ -64,16 +51,3 @@ void CircuitSimulatorExecutor::setCircuitSimulator(
     std::unique_ptr<CircuitSimulator<>>& circuitSimulator) {
   mCircuitSimulator = std::move(circuitSimulator);
 }
-
-// CircuitSimulatorExecutor(std::unique_ptr<SimulationTask> &mSimTask)
-//         : SimulationExecutor(task), mSimTask(mSimTask) {}
-
-// const CircuitSimulator<dd::DDPackageConfig>
-// &CircuitSimulatorExecutor::getCircuitSimulator() const {
-//     return circuitSimulator;
-// }
-//
-// void CircuitSimulatorExecutor::setCircuitSimulator(const
-// CircuitSimulator<dd::DDPackageConfig> &circuitSimulator) {
-//     CircuitSimulatorExecutor::circuitSimulator = circuitSimulator;
-// }
