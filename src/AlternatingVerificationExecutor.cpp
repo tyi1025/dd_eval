@@ -1,7 +1,5 @@
 #include "AlternatingVerificationExecutor.hpp"
 
-class AlternatingVerificationExecutor::AlternatingVerificationExecutor {};
-
 std::string AlternatingVerificationExecutor::getIdentifier() {
   return "alt_ver_exe" + mTask->getIdentifier();
 }

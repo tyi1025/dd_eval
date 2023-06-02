@@ -1,7 +1,5 @@
 #include "CircuitSimulatorExecutor.hpp"
 
-class CircuitSimulatorExecutor::CircuitSimulatorExecutor {};
-
 std::string CircuitSimulatorExecutor::getIdentifier() {
   return "circ_sim_exe" + mTask->getIdentifier();
 }
