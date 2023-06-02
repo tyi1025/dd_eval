@@ -2,6 +2,6 @@
   {
     "description": "empty_circuit",
     "initial_circuit": "OPENQASM 2.0;include \"qelib1.inc\";qreg q[2];\n",
-    "expected_00": 1
+    "expected_00": 1024
   }
 ]

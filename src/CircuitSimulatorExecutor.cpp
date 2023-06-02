@@ -7,28 +7,29 @@ std::string CircuitSimulatorExecutor::getIdentifier() {
   // refactor. how?
 }
 
+template <typename KTy, typename VTy>
+inline void toJson(json& j, const std::map<KTy, VTy>& m) {
+  for (const auto& entry : m) {
+    j[entry.first] = entry.second;
+  }
+}
+
 json CircuitSimulatorExecutor::executeTask() {
   json result;
   auto start = std::chrono::high_resolution_clock::now();
 
-  // execute the actual task
   const auto results = mCircuitSimulator->simulate(1024U);
-  // use the results
+  toJson(result, results);
   // Add memory usage
 
   auto stop = std::chrono::high_resolution_clock::now();
   auto runtime =
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-  result["runtime"]            = runtime.count();
-  std::string const identifier = "test identifier";
-  //      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
+  result["runtime"] = runtime.count();
+  std::string const identifier =
+      this->getMSimTask()->getIdentifier() + "_" + this->getIdentifier();
   result["identifier"] = identifier;
 
-  result["00"] = results.count("00");
-  result["01"] = results.count("01");
-  result["10"] = results.count("10");
-  result["11"] = results.count("11");
-  // what about circuits with not 2 qubits？
   return result;
 }
 

@@ -37,7 +37,7 @@ protected:
     std::stringstream      ss(test.initialCircuit);
     qc::QuantumComputation qc{};
     qc.import(ss, qc::Format::OpenQASM);
-    std::cout << "Initial circuit:\n" << qc;
+    std::cout << "Circuit:\n" << qc;
 
     qcForTask      = std::make_unique<qc::QuantumComputation>(qc.clone());
     qcForSim       = std::make_unique<qc::QuantumComputation>(qc.clone());
@@ -59,6 +59,14 @@ protected:
   TestConfiguration                         test;
 };
 
+void printAll(const json& jsonObject) {
+  for (auto it = jsonObject.begin(); it != jsonObject.end(); ++it) {
+    const auto& key   = it.key();
+    const auto& value = it.value();
+    std::cout << key << ": " << value << std::endl;
+  }
+}
+
 INSTANTIATE_TEST_SUITE_P(
     Circuits, SimulatorTest, testing::ValuesIn(getTests("circuits.json")),
     [](const testing::TestParamInfo<SimulatorTest::ParamType>& inf) {
@@ -67,5 +75,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_P(SimulatorTest, EmptyCircuit) {
   json const result = circuitSimulatorExecutor->executeTask();
+  std::cout << "Results:" << std::endl;
+  printAll(result);
   EXPECT_EQ(result["00"], test.expected00);
 }

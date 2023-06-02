@@ -15,5 +15,5 @@ TEST(DDSIMExecSimpleTest, EmptyCircuit) {
   circuitSimulatorExecutor->setMSimTask(simulationTask);
   json const result = circuitSimulatorExecutor->executeTask();
 
-  EXPECT_EQ(1, result["00"]);
+  EXPECT_EQ(1024, result["00"]);
 }
