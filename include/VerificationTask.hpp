@@ -5,12 +5,13 @@
 
 class VerificationTask : public Task {
 public:
-  VerificationTask(qc::QuantumComputation qc1, qc::QuantumComputation qc2) {
-    this->qc1 = qc1.clone();
-    this->qc2 = qc2.clone();
-  };
+  VerificationTask() = default;
+  VerificationTask(std::unique_ptr<qc::QuantumComputation> qc1,
+                   std::unique_ptr<qc::QuantumComputation> qc2)
+      : qc1(std::move(qc1)), qc2(std::move(qc2)) {}
+  std::string getIdentifier() override;
 
-private:
-  qc::QuantumComputation qc1;
-  qc::QuantumComputation qc2;
+protected:
+  std::unique_ptr<qc::QuantumComputation> qc1;
+  std::unique_ptr<qc::QuantumComputation> qc2;
 };

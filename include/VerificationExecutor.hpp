@@ -5,9 +5,13 @@
 
 class VerificationExecutor : public Executor {
 public:
-  //  explicit VerificationExecutor(const std::shared_ptr<VerificationTask>&
-  //  task) {
-  //    setTask(task);
-  //  };
-  //  json executeTask() override;
+  VerificationExecutor() = default;
+
+private:
+  std::unique_ptr<VerificationTask> mTask;
+
+public:
+  const std::unique_ptr<VerificationTask>& getMTask() const;
+
+  void setMTask(std::unique_ptr<VerificationTask>& task);
 };
