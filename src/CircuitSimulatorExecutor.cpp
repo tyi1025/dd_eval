@@ -3,8 +3,7 @@
 class CircuitSimulatorExecutor::CircuitSimulatorExecutor {};
 
 std::string CircuitSimulatorExecutor::getIdentifier() {
-  return {"This is a circuit simulator executor"};
-  // refactor. how?
+  return "circ_sim_exe" + mSimTask->getIdentifier();
 }
 
 template <typename KTy, typename VTy>

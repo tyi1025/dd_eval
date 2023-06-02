@@ -3,8 +3,7 @@
 class AlternatingVerificationExecutor::AlternatingVerificationExecutor {};
 
 std::string AlternatingVerificationExecutor::getIdentifier() {
-  return {"This is a alternating verification executor"};
-  // refactor. how?
+  return "alt_ver_exe" + mVerTask->getIdentifier();
 }
 
 json AlternatingVerificationExecutor::executeTask() {
