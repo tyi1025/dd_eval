@@ -33,12 +33,11 @@ protected:
     test = GetParam();
 
     std::stringstream      ss(test.initialCircuit);
-    qc::QuantumComputation qc{};
-    qc.import(ss, qc::Format::OpenQASM);
+    auto qc = std::make_unique<qc::QuantumComputation>():
+    qc->import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << qc;
 
-    qcSim          = std::make_unique<qc::QuantumComputation>(qc.clone());
-    simulationTask = std::make_unique<SimulationTask>(std::move(qcSim));
+    simulationTask = std::make_unique<SimulationTask>(std::move(qc));
     circuitSimulatorExecutor =
         std::make_unique<CircuitSimulatorExecutor>(std::move(simulationTask));
   }

@@ -22,8 +22,7 @@ json CircuitSimulatorExecutor::executeTask() {
   json result;
   auto start = std::chrono::high_resolution_clock::now();
 
-  const auto results = mCircuitSimulator->simulate(1024U);
-  toJson(result, results);
+  result["measurement_results"] = mCircuitSimulator->simulate(1024U);
   // Add memory usage
 
   auto stop = std::chrono::high_resolution_clock::now();
