@@ -32,9 +32,9 @@ protected:
   void SetUp() override {
     test = GetParam();
 
-    std::stringstream      ss(test.initialCircuit);
-    auto qc = std::make_unique<qc::QuantumComputation>():
-    qc->import(ss, qc::Format::OpenQASM);
+    std::stringstream ss(test.initialCircuit);
+    auto              qc = std::make_unique<qc::QuantumComputation>()
+        : qc->import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << qc;
 
     simulationTask = std::make_unique<SimulationTask>(std::move(qc));
