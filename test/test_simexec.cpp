@@ -36,14 +36,13 @@ protected:
     qc->import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << qc;
 
-    simulationTask           = std::make_unique<SimulationTask>(std::move(qc));
+    simulationTask           = SimulationTask(std::move(qc));
     circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
 
-  std::unique_ptr<qc::QuantumComputation>   qcSim;
-  std::unique_ptr<SimulationTask>           simulationTask;
+  SimulationTask                            simulationTask;
   std::unique_ptr<CircuitSimulatorExecutor> circuitSimulatorExecutor;
   TestConfigurationDDSIM                    test;
 };
@@ -55,11 +54,11 @@ INSTANTIATE_TEST_SUITE_P(
     });
 
 TEST_P(DDSIMExecTest, TwoQubitCircuitWithTwoXGates) {
-  json const result = circuitSimulatorExecutor->execute(*simulationTask);
+  json const result = circuitSimulatorExecutor->execute(simulationTask);
   std::cout << "Results:" << std::endl;
   std::cout << result.dump(2U) << std::endl;
-  json const expected_results = {
+  json const expectedResults = {
       {"11", test.expected11},
   };
-  EXPECT_EQ(result["measurement_results"], expected_results);
+  EXPECT_EQ(result["measurement_results"], expectedResults);
 }

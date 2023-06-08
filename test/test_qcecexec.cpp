@@ -33,20 +33,17 @@ protected:
   void SetUp() override {
     test = GetParam();
 
-    std::stringstream      ss1(test.initialCircuit1);
-    qc::QuantumComputation qc1{};
-    qc1.import(ss1, qc::Format::OpenQASM);
+    std::stringstream ss1(test.initialCircuit1);
+    auto              qc1 = std::make_unique<qc::QuantumComputation>();
+    qc1->import(ss1, qc::Format::OpenQASM);
     std::cout << "Circuit 1:\n" << qc1 << std::endl;
 
-    std::stringstream      ss2(test.initialCircuit2);
-    qc::QuantumComputation qc2{};
-    qc2.import(ss2, qc::Format::OpenQASM);
+    std::stringstream ss2(test.initialCircuit2);
+    auto              qc2 = std::make_unique<qc::QuantumComputation>();
+    qc2->import(ss2, qc::Format::OpenQASM);
     std::cout << "Circuit 2:\n" << qc2 << std::endl;
 
-    qc1Ver           = std::make_unique<qc::QuantumComputation>(qc1.clone());
-    qc2Ver           = std::make_unique<qc::QuantumComputation>(qc2.clone());
-    verificationTask = std::make_unique<VerificationTask>(std::move(qc1Ver),
-                                                          std::move(qc2Ver));
+    verificationTask = VerificationTask(std::move(qc1), std::move(qc2));
 
     alternatingVerificationExecutor =
         std::make_unique<AlternatingVerificationExecutor>();
@@ -54,9 +51,7 @@ protected:
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
 
-  std::unique_ptr<qc::QuantumComputation> qc1Ver;
-  std::unique_ptr<qc::QuantumComputation> qc2Ver;
-  std::unique_ptr<VerificationTask>       verificationTask;
+  VerificationTask verificationTask;
   std::unique_ptr<AlternatingVerificationExecutor>
                         alternatingVerificationExecutor;
   TestConfigurationQCEC test;
@@ -70,7 +65,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_P(QCECExecTest, EmptyCircuits) {
   json const result =
-      alternatingVerificationExecutor->execute(*verificationTask);
+      alternatingVerificationExecutor->execute(verificationTask);
   std::cout << "Results:" << std::endl;
   std::cout << result.dump(2U) << std::endl;
   EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
