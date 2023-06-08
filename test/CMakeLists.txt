@@ -13,12 +13,5 @@ configure_file(${CMAKE_SOURCE_DIR}/test/circuits.json
                ${CMAKE_CURRENT_BINARY_DIR}/circuits.json COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/test/equi_circuits.json
                ${CMAKE_CURRENT_BINARY_DIR}/equi_circuits.json COPYONLY)
-package_add_test(
-  ${PROJECT_NAME}_test
-  ${PROJECT_NAME}
-  test_ddsim_simple.cpp
-  test_qcec_simple.cpp
-  test_simexec_simple.cpp
-  test_simexec.cpp
-  test_qcecexec_simple.cpp
-  test_qcecexec.cpp)
+package_add_test(${PROJECT_NAME}_test ${PROJECT_NAME} test_ddsim_simple.cpp
+                 test_qcec_simple.cpp test_simexec.cpp test_qcecexec.cpp)

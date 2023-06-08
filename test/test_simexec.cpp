@@ -1,6 +1,5 @@
-#include "CircuitSimulatorExecutor.hpp"
-#include "SimulationTask.hpp"
-#include "TestHelpers.hpp"
+#include "executors/CircuitSimulatorExecutor.hpp"
+#include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
 
@@ -33,13 +32,12 @@ protected:
     test = GetParam();
 
     std::stringstream ss(test.initialCircuit);
-    auto              qc = std::make_unique<qc::QuantumComputation>()
-        : qc->import(ss, qc::Format::OpenQASM);
+    auto              qc = std::make_unique<qc::QuantumComputation>();
+    qc->import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << qc;
 
-    simulationTask = std::make_unique<SimulationTask>(std::move(qc));
-    circuitSimulatorExecutor =
-        std::make_unique<CircuitSimulatorExecutor>(std::move(simulationTask));
+    simulationTask           = std::make_unique<SimulationTask>(std::move(qc));
+    circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
@@ -57,8 +55,11 @@ INSTANTIATE_TEST_SUITE_P(
     });
 
 TEST_P(DDSIMExecTest, TwoQubitCircuitWithTwoXGates) {
-  json const result = circuitSimulatorExecutor->executeTask();
+  json const result = circuitSimulatorExecutor->execute(*simulationTask);
   std::cout << "Results:" << std::endl;
-  printAll(result);
-  EXPECT_EQ(result["11"], test.expected11);
+  std::cout << result.dump(2U) << std::endl;
+  json const expected_results = {
+      {"11", test.expected11},
+  };
+  EXPECT_EQ(result["measurement_results"], expected_results);
 }

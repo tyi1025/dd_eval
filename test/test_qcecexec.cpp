@@ -1,6 +1,5 @@
-#include "AlternatingVerificationExecutor.hpp"
-#include "TestHelpers.hpp"
-#include "VerificationTask.hpp"
+#include "executors/AlternatingVerificationExecutor.hpp"
+#include "tasks/VerificationTask.hpp"
 
 #include "gtest/gtest.h"
 
@@ -50,8 +49,7 @@ protected:
                                                           std::move(qc2Ver));
 
     alternatingVerificationExecutor =
-        std::make_unique<AlternatingVerificationExecutor>(
-            std::move(verificationTask));
+        std::make_unique<AlternatingVerificationExecutor>();
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
@@ -71,8 +69,9 @@ INSTANTIATE_TEST_SUITE_P(
     });
 
 TEST_P(QCECExecTest, EmptyCircuits) {
-  json const result = alternatingVerificationExecutor->executeTask();
+  json const result =
+      alternatingVerificationExecutor->execute(*verificationTask);
   std::cout << "Results:" << std::endl;
-  printAll(result);
-  EXPECT_EQ(result["equivalence"], test.expectedEquivalence);
+  std::cout << result.dump(2U) << std::endl;
+  EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
 }

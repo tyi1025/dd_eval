@@ -1,37 +1,21 @@
-#include "CircuitSimulatorExecutor.hpp"
+#include "executors/CircuitSimulatorExecutor.hpp"
 
-CircuitSimulatorExecutor::CircuitSimulatorExecutor(
-    std::unique_ptr<SimulationTask> simulationTask) {
-  mTask   = std::move(simulationTask);
-  auto qc = std::make_unique<qc::QuantumComputation>(mTask->getQc()->clone());
-  mCircuitSimulator = std::make_unique<CircuitSimulator<>>(std::move(qc));
-}
-
-std::string CircuitSimulatorExecutor::getIdentifier() {
-  return "circ_sim_exe" + mTask->getIdentifier();
-}
-
-template <typename KTy, typename VTy>
-inline void toJson(json& j, const std::map<KTy, VTy>& m) {
-  for (const auto& entry : m) {
-    j[entry.first] = entry.second;
-  }
-}
-
-json CircuitSimulatorExecutor::executeTask() {
+json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
   json result;
-  auto start = std::chrono::high_resolution_clock::now();
+  auto start = std::chrono::steady_clock::now();
 
-  result["measurement_results"] = mCircuitSimulator->simulate(1024U);
+  auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
+  auto circuitSimulator = std::make_unique<CircuitSimulator<>>(std::move(qc));
+
+  result["measurement_results"] = circuitSimulator->simulate(1024U);
   // Add memory usage
 
-  auto stop = std::chrono::high_resolution_clock::now();
-  auto runtime =
+  auto       stop = std::chrono::steady_clock::now();
+  auto const runtime =
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
-  result["runtime"] = runtime.count();
-  std::string const identifier =
-      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
-  result["identifier"] = identifier;
+  result["runtime"]  = runtime.count();
+  result["executor"] = getIdentifier();
+  result["task"]     = task.getIdentifier();
 
   return result;
 }

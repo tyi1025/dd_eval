@@ -3,6 +3,8 @@
 #include "QuantumComputation.hpp"
 #include "Task.hpp"
 
+#include <memory>
+
 class SimulationTask : public Task {
 public:
   SimulationTask() = default;
@@ -10,8 +12,13 @@ public:
   explicit SimulationTask(std::unique_ptr<qc::QuantumComputation> qc)
       : qc(std::move(qc)) {}
 
-  [[nodiscard]] const std::unique_ptr<qc::QuantumComputation>& getQc() const;
-  std::string getIdentifier() override;
+  [[nodiscard]] const std::unique_ptr<qc::QuantumComputation>& getQc() const {
+    return qc;
+  };
+
+  [[nodiscard]] std::string getIdentifier() const override {
+    return "sim_" + qc->getName();
+  };
 
 protected:
   std::unique_ptr<qc::QuantumComputation> qc;

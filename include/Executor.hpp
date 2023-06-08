@@ -2,16 +2,18 @@
 
 #include "Task.hpp"
 
-#include <memory>
+#include <nlohmann/json.hpp>
+#include <type_traits>
 
-class Executor {
+using json = nlohmann::json;
+
+template <class T> class Executor {
+  static_assert(std::is_base_of_v<Task, T>);
+
 public:
   virtual ~Executor() = default;
   explicit Executor() = default;
 
-  virtual json        executeTask()   = 0;
-  virtual std::string getIdentifier() = 0;
-
-private:
-  std::unique_ptr<Task> task;
+  virtual json                      execute(const T& task) = 0;
+  [[nodiscard]] virtual std::string getIdentifier() const  = 0;
 };

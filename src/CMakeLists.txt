@@ -10,21 +10,13 @@ if(NOT TARGET ${PROJECT_NAME})
   add_library(
     ${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/include/Executor.hpp
-    ${PROJECT_SOURCE_DIR}/include/SimulationExecutor.hpp
-    ${PROJECT_SOURCE_DIR}/include/VerificationExecutor.hpp
-    ${PROJECT_SOURCE_DIR}/include/CircuitSimulatorExecutor.hpp
-    ${PROJECT_SOURCE_DIR}/include/AlternatingVerificationExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/CircuitSimulatorExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/AlternatingVerificationExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
-    ${PROJECT_SOURCE_DIR}/include/SimulationTask.hpp
-    ${PROJECT_SOURCE_DIR}/include/VerificationTask.hpp
-    ${PROJECT_SOURCE_DIR}/include/TestHelpers.hpp
-    TestHelpers.cpp
-    SimulationExecutor.cpp
+    ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
+    ${PROJECT_SOURCE_DIR}/include/tasks/VerificationTask.hpp
     CircuitSimulatorExecutor.cpp
-    VerificationExecutor.cpp
-    AlternatingVerificationExecutor.cpp
-    SimulationTask.cpp
-    VerificationTask.cpp)
+    AlternatingVerificationExecutor.cpp)
 
   # set include directories
   target_include_directories(

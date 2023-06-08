@@ -1,36 +1,27 @@
-#include "AlternatingVerificationExecutor.hpp"
+#include "executors/AlternatingVerificationExecutor.hpp"
 
-AlternatingVerificationExecutor::AlternatingVerificationExecutor(
-    std::unique_ptr<VerificationTask> verificationTask) {
-  mTask    = std::move(verificationTask);
-  auto qc1 = mTask->getQc1()->clone();
-  auto qc2 = mTask->getQc2()->clone();
-  mEquivalenceCheckingManager =
-      std::make_unique<ec::EquivalenceCheckingManager>(qc1, qc2);
-  mEquivalenceCheckingManager->setAlternatingChecker(true);
-  mEquivalenceCheckingManager->setSimulationChecker(false);
-  mEquivalenceCheckingManager->setConstructionChecker(false);
-  mEquivalenceCheckingManager->setZXChecker(false);
-}
-
-std::string AlternatingVerificationExecutor::getIdentifier() {
-  return "alt_ver_exe" + mTask->getIdentifier();
-}
-
-json AlternatingVerificationExecutor::executeTask() {
+json AlternatingVerificationExecutor::execute(const VerificationTask& task) {
   json result;
-  auto start = std::chrono::high_resolution_clock::now();
+  auto start = std::chrono::steady_clock::now();
 
-  mEquivalenceCheckingManager->run();
-  result = mEquivalenceCheckingManager->getResults().json();
+  auto qc1 = task.getQc1()->clone();
+  auto qc2 = task.getQc2()->clone();
+  auto equivalenceCheckingManager =
+      std::make_unique<ec::EquivalenceCheckingManager>(*task.getQc1(),
+                                                       *task.getQc2());
+  equivalenceCheckingManager->disableAllCheckers();
+  equivalenceCheckingManager->setAlternatingChecker(true);
+
+  equivalenceCheckingManager->run();
+  result["check_results"] = equivalenceCheckingManager->getResults().json();
   // Add memory usage
-  auto stop = std::chrono::high_resolution_clock::now();
+  auto stop = std::chrono::steady_clock::now();
   auto runtime =
       std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
   result["runtime"] = runtime.count();
-  std::string const identifier =
-      this->getTask()->getIdentifier() + "_" + this->getIdentifier();
-  result["identifier"] = identifier;
+
+  result["executor"] = getIdentifier();
+  result["task"]     = task.getIdentifier();
 
   return result;
 }
