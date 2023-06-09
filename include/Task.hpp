@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 class Task {
 public:
   virtual ~Task()                                         = default;
