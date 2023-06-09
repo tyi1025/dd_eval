@@ -21,12 +21,14 @@ inline void from_json(const nlohmann::json& j, TestConfigurationQCEC& test) {
   test.expectedEquivalence = j.at("expected_equivalence").get<std::string>();
 }
 
-static std::vector<TestConfigurationQCEC> getTests(const std::string& path) {
+namespace {
+std::vector<TestConfigurationQCEC> getTests(const std::string& path) {
   std::ifstream  input(path);
   nlohmann::json j;
   input >> j;
   return j;
 }
+} // namespace
 
 class QCECExecTest : public ::testing::TestWithParam<TestConfigurationQCEC> {
 protected:
