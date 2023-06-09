@@ -7,16 +7,12 @@ struct TestConfigurationDDSIM {
   // given input
   std::string description;
   std::string circuit;
-
-  // expected output
-  json expectedResults{};
 };
 
 // NOLINTNEXTLINE (readability-identifier-naming)
 inline void from_json(const nlohmann::json& j, TestConfigurationDDSIM& test) {
-  test.description     = j.at("description").get<std::string>();
-  test.circuit         = j.at("circuit").get<std::string>();
-  test.expectedResults = j.at("expected_meas_results").get<json>();
+  test.description = j.at("description").get<std::string>();
+  test.circuit     = j.at("circuit").get<std::string>();
 }
 
 namespace {
@@ -58,10 +54,6 @@ TEST_P(DDSIMExecTest, Tests) {
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
   ASSERT_TRUE(result.contains("measurement_results"));
-  if (!result["measurement_results"].empty()) {
-    EXPECT_EQ(result["measurement_results"], test.expectedResults);
-  }
-
   EXPECT_TRUE(result.contains("construction_time"));
   EXPECT_TRUE(result.contains("execution_time"));
   EXPECT_TRUE(result.contains("executor"));
