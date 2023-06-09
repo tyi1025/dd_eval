@@ -34,7 +34,7 @@ protected:
     std::stringstream ss(test.initialCircuit);
     auto              qc = std::make_unique<qc::QuantumComputation>();
     qc->import(ss, qc::Format::OpenQASM);
-    std::cout << "Circuit:\n" << qc;
+    std::cout << "Circuit:\n" << *qc;
 
     simulationTask           = SimulationTask(std::move(qc));
     circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();

@@ -36,12 +36,12 @@ protected:
     std::stringstream ss1(test.initialCircuit1);
     auto              qc1 = std::make_unique<qc::QuantumComputation>();
     qc1->import(ss1, qc::Format::OpenQASM);
-    std::cout << "Circuit 1:\n" << qc1 << std::endl;
+    std::cout << "Circuit 1:\n" << *qc1 << std::endl;
 
     std::stringstream ss2(test.initialCircuit2);
     auto              qc2 = std::make_unique<qc::QuantumComputation>();
     qc2->import(ss2, qc::Format::OpenQASM);
-    std::cout << "Circuit 2:\n" << qc2 << std::endl;
+    std::cout << "Circuit 2:\n" << *qc2 << std::endl;
 
     verificationTask = VerificationTask(std::move(qc1), std::move(qc2));
 
