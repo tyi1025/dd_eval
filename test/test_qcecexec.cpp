@@ -47,6 +47,10 @@ protected:
 
     alternatingVerificationExecutor =
         std::make_unique<AlternatingVerificationExecutor>();
+
+    result = alternatingVerificationExecutor->execute(verificationTask);
+    std::cout << "Results:" << std::endl;
+    std::cout << result.dump(2U) << std::endl;
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
@@ -55,6 +59,7 @@ protected:
   std::unique_ptr<AlternatingVerificationExecutor>
                         alternatingVerificationExecutor;
   TestConfigurationQCEC test;
+  json                  result;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -63,10 +68,13 @@ INSTANTIATE_TEST_SUITE_P(
       return inf.param.description;
     });
 
-TEST_P(QCECExecTest, EmptyCircuits) {
-  json const result =
-      alternatingVerificationExecutor->execute(verificationTask);
-  std::cout << "Results:" << std::endl;
-  std::cout << result.dump(2U) << std::endl;
+TEST_P(QCECExecTest, Equivalence) {
   EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
+}
+
+TEST_P(QCECExecTest, Entries) {
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
 }

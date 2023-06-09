@@ -9,14 +9,14 @@ struct TestConfigurationDDSIM {
   std::string initialCircuit;
 
   // expected output
-  std::size_t expected11{};
+  json expectedResults{};
 };
 
 // NOLINTNEXTLINE (readability-identifier-naming)
 inline void from_json(const nlohmann::json& j, TestConfigurationDDSIM& test) {
-  test.description    = j.at("description").get<std::string>();
-  test.initialCircuit = j.at("initial_circuit").get<std::string>();
-  test.expected11     = j.at("expected_11").get<std::size_t>();
+  test.description     = j.at("description").get<std::string>();
+  test.initialCircuit  = j.at("initial_circuit").get<std::string>();
+  test.expectedResults = j.at("expected_meas_results").get<json>();
 }
 
 static std::vector<TestConfigurationDDSIM> getTests(const std::string& path) {
@@ -38,6 +38,10 @@ protected:
 
     simulationTask           = SimulationTask(std::move(qc));
     circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
+
+    result = circuitSimulatorExecutor->execute(simulationTask);
+    std::cout << "Results:" << std::endl;
+    std::cout << result.dump(2U) << std::endl;
   }
 
   void TearDown() override { std::cout << "Tearing down...\n"; }
@@ -45,6 +49,7 @@ protected:
   SimulationTask                            simulationTask;
   std::unique_ptr<CircuitSimulatorExecutor> circuitSimulatorExecutor;
   TestConfigurationDDSIM                    test;
+  json                                      result;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -53,12 +58,13 @@ INSTANTIATE_TEST_SUITE_P(
       return inf.param.description;
     });
 
-TEST_P(DDSIMExecTest, TwoQubitCircuitWithTwoXGates) {
-  json const result = circuitSimulatorExecutor->execute(simulationTask);
-  std::cout << "Results:" << std::endl;
-  std::cout << result.dump(2U) << std::endl;
-  json const expectedResults = {
-      {"11", test.expected11},
-  };
-  EXPECT_EQ(result["measurement_results"], expectedResults);
+TEST_P(DDSIMExecTest, MeasResults) {
+  EXPECT_EQ(result["measurement_results"], test.expectedResults);
+}
+
+TEST_P(DDSIMExecTest, Entries) {
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
 }
