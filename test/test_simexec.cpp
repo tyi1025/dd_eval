@@ -1,3 +1,4 @@
+#include "QuantumComputation.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 

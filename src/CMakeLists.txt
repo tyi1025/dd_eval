@@ -15,8 +15,10 @@ if(NOT TARGET ${PROJECT_NAME})
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/VerificationTask.hpp
-    CircuitSimulatorExecutor.cpp
-    AlternatingVerificationExecutor.cpp)
+    executors/CircuitSimulatorExecutor.cpp
+    executors/AlternatingVerificationExecutor.cpp
+    tasks/SimulationTask.cpp
+    tasks/VerificationTask.cpp)
 
   # set include directories
   target_include_directories(
