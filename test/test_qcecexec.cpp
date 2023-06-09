@@ -6,8 +6,8 @@
 struct TestConfigurationQCEC {
   // given input
   std::string description;
-  std::string initialCircuit1;
-  std::string initialCircuit2;
+  std::string circuit1;
+  std::string circuit2;
 
   // expected output
   std::string expectedEquivalence;
@@ -16,8 +16,8 @@ struct TestConfigurationQCEC {
 // NOLINTNEXTLINE (readability-identifier-naming)
 inline void from_json(const nlohmann::json& j, TestConfigurationQCEC& test) {
   test.description         = j.at("description").get<std::string>();
-  test.initialCircuit1     = j.at("initial_circuit1").get<std::string>();
-  test.initialCircuit2     = j.at("initial_circuit2").get<std::string>();
+  test.circuit1            = j.at("circuit1").get<std::string>();
+  test.circuit2            = j.at("circuit2").get<std::string>();
   test.expectedEquivalence = j.at("expected_equivalence").get<std::string>();
 }
 
@@ -33,12 +33,12 @@ protected:
   void SetUp() override {
     test = GetParam();
 
-    std::stringstream ss1(test.initialCircuit1);
+    std::stringstream ss1(test.circuit1);
     auto              qc1 = std::make_unique<qc::QuantumComputation>();
     qc1->import(ss1, qc::Format::OpenQASM);
     std::cout << "Circuit 1:\n" << *qc1 << std::endl;
 
-    std::stringstream ss2(test.initialCircuit2);
+    std::stringstream ss2(test.circuit2);
     auto              qc2 = std::make_unique<qc::QuantumComputation>();
     qc2->import(ss2, qc::Format::OpenQASM);
     std::cout << "Circuit 2:\n" << *qc2 << std::endl;
@@ -47,32 +47,28 @@ protected:
 
     alternatingVerificationExecutor =
         std::make_unique<AlternatingVerificationExecutor>();
-
-    result = alternatingVerificationExecutor->execute(verificationTask);
-    std::cout << "Results:" << std::endl;
-    std::cout << result.dump(2U) << std::endl;
   }
-
-  void TearDown() override { std::cout << "Tearing down...\n"; }
 
   VerificationTask verificationTask;
   std::unique_ptr<AlternatingVerificationExecutor>
                         alternatingVerificationExecutor;
   TestConfigurationQCEC test;
-  json                  result;
 };
 
 INSTANTIATE_TEST_SUITE_P(
-    Circuits, QCECExecTest, testing::ValuesIn(getTests("equi_circuits.json")),
+    Circuits, QCECExecTest, testing::ValuesIn(getTests("ver_circuits.json")),
     [](const testing::TestParamInfo<QCECExecTest::ParamType>& inf) {
       return inf.param.description;
     });
 
-TEST_P(QCECExecTest, Equivalence) {
-  EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
-}
+TEST_P(QCECExecTest, Tests) {
+  const auto result =
+      alternatingVerificationExecutor->execute(verificationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
-TEST_P(QCECExecTest, Entries) {
+  ASSERT_TRUE(result.contains("check_results"));
+  EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
+
   EXPECT_TRUE(result.contains("construction_time"));
   EXPECT_TRUE(result.contains("execution_time"));
   EXPECT_TRUE(result.contains("executor"));

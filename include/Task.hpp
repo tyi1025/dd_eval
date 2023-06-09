@@ -4,6 +4,7 @@
 
 class Task {
 public:
-  virtual ~Task()                                         = default;
+  virtual ~Task() = default;
+
   [[nodiscard]] virtual std::string getIdentifier() const = 0;
 };

@@ -12,8 +12,8 @@ template <class T> class Executor {
 
 public:
   virtual ~Executor() = default;
-  explicit Executor() = default;
 
-  virtual json                      execute(const T& task) = 0;
-  [[nodiscard]] virtual std::string getIdentifier() const  = 0;
+  virtual json execute(const T& task) = 0;
+
+  [[nodiscard]] virtual std::string getIdentifier() const = 0;
 };

@@ -1,5 +1,7 @@
 #include "executors/CircuitSimulatorExecutor.hpp"
 
+#include "CircuitSimulator.hpp"
+
 json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();

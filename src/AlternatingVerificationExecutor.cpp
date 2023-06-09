@@ -1,11 +1,11 @@
 #include "executors/AlternatingVerificationExecutor.hpp"
 
+#include "EquivalenceCheckingManager.hpp"
+
 json AlternatingVerificationExecutor::execute(const VerificationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();
 
-  auto qc1 = task.getQc1()->clone();
-  auto qc2 = task.getQc2()->clone();
   auto equivalenceCheckingManager =
       std::make_unique<ec::EquivalenceCheckingManager>(*task.getQc1(),
                                                        *task.getQc2());
