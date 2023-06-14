@@ -12,14 +12,25 @@ if(NOT TARGET ${PROJECT_NAME})
     ${PROJECT_SOURCE_DIR}/include/Executor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/CircuitSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/AlternatingVerificationExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/HybridSimulatorDDExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/HybridSimulatorAmplitudeExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/DeterministicNoiseSimExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/StochasticNoiseSimulatorExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimRecursiveExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimSequentialExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/VerificationTask.hpp
     executors/CircuitSimulatorExecutor.cpp
     executors/AlternatingVerificationExecutor.cpp
+    executors/HybridSimulatorDDExecutor.cpp
+    executors/HybridSimulatorAmplitudeExecutor.cpp
+    executors/DeterministicNoiseSimExecutor.cpp
+    executors/StochasticNoiseSimulatorExecutor.cpp
+    executors/UnitarySimRecursiveExecutor.cpp
+    executors/UnitarySimSequentialExecutor.cpp
     tasks/SimulationTask.cpp
     tasks/VerificationTask.cpp)
-
   # set include directories
   target_include_directories(
     ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include
