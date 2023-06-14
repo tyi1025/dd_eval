@@ -7,7 +7,8 @@ json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto circuitSimulator = std::make_unique<CircuitSimulator<>>(std::move(qc));
+  auto circuitSimulator =
+      std::make_unique<CircuitSimulator<>>(std::move(qc), 23);
 
   auto const executionStart = std::chrono::steady_clock::now();
 
