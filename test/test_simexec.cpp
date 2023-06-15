@@ -1,5 +1,11 @@
 #include "QuantumComputation.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
+#include "executors/DeterministicNoiseSimExecutor.hpp"
+#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
+#include "executors/HybridSimulatorDDExecutor.hpp"
+#include "executors/StochasticNoiseSimulatorExecutor.hpp"
+#include "executors/UnitarySimRecursiveExecutor.hpp"
+#include "executors/UnitarySimSequentialExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
@@ -35,13 +41,11 @@ protected:
     qc->import(ss, qc::Format::OpenQASM);
     std::cout << "Circuit:\n" << *qc;
 
-    simulationTask           = SimulationTask(std::move(qc));
-    circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
+    simulationTask = SimulationTask(std::move(qc));
   }
 
-  SimulationTask                            simulationTask;
-  std::unique_ptr<CircuitSimulatorExecutor> circuitSimulatorExecutor;
-  TestConfigurationDDSIM                    test;
+  SimulationTask         simulationTask;
+  TestConfigurationDDSIM test;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -50,8 +54,90 @@ INSTANTIATE_TEST_SUITE_P(
       return inf.param.description;
     });
 
-TEST_P(DDSIMExecTest, Tests) {
+TEST_P(DDSIMExecTest, CircuitSimulatorExec) {
+  std::unique_ptr<CircuitSimulatorExecutor> circuitSimulatorExecutor =
+      std::make_unique<CircuitSimulatorExecutor>();
   const auto result = circuitSimulatorExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, DeterministicNoiseSimExec) {
+  std::unique_ptr<DeterministicNoiseSimExecutor> deterministicNoiseSimExecutor =
+      std::make_unique<DeterministicNoiseSimExecutor>();
+  const auto result = deterministicNoiseSimExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, HybridSimulatorAmplitudeExec) {
+  std::unique_ptr<HybridSimulatorAmplitudeExecutor>
+      hybridSimulatorAmplitudeExecutor =
+          std::make_unique<HybridSimulatorAmplitudeExecutor>();
+  const auto result = hybridSimulatorAmplitudeExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, HybridSimulatorDDExec) {
+  std::unique_ptr<HybridSimulatorDDExecutor> hybridSimulatorDDExecutor =
+      std::make_unique<HybridSimulatorDDExecutor>();
+  const auto result = hybridSimulatorDDExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, StochasticNoiseSimExec) {
+  std::unique_ptr<StochasticNoiseSimulatorExecutor>
+      stochasticNoiseSimulatorExecutor =
+          std::make_unique<StochasticNoiseSimulatorExecutor>();
+  const auto result = stochasticNoiseSimulatorExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, UnitarySimRecursiveExec) {
+  std::unique_ptr<UnitarySimRecursiveExecutor> unitarySimRecursiveExecutor =
+      std::make_unique<UnitarySimRecursiveExecutor>();
+  const auto result = unitarySimRecursiveExecutor->execute(simulationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("measurement_results"));
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(DDSIMExecTest, UnitarySimSequentialExec) {
+  std::unique_ptr<UnitarySimSequentialExecutor> unitarySimSequentialExecutor =
+      std::make_unique<UnitarySimSequentialExecutor>();
+  const auto result = unitarySimSequentialExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
   ASSERT_TRUE(result.contains("measurement_results"));
