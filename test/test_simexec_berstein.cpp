@@ -1,0 +1,63 @@
+#include "QuantumComputation.hpp"
+#include "algorithms/BernsteinVazirani.hpp"
+#include "executors/CircuitSimulatorExecutor.hpp"
+#include "executors/DeterministicNoiseSimExecutor.hpp"
+#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
+#include "executors/HybridSimulatorDDExecutor.hpp"
+#include "executors/StochasticNoiseSimulatorExecutor.hpp"
+#include "executors/UnitarySimRecursiveExecutor.hpp"
+#include "executors/UnitarySimSequentialExecutor.hpp"
+#include "tasks/SimulationTask.hpp"
+
+#include "gtest/gtest.h"
+
+TEST(SimExecTestBerstein, HybridSimulatorAmplitudeExec) {
+  auto hybridSimulatorAmplitudeExecutor =
+      std::make_unique<HybridSimulatorAmplitudeExecutor>();
+  std::size_t const    n  = 25;
+  auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
+  SimulationTask const simulationTask(std::move(qc));
+  const auto result = hybridSimulatorAmplitudeExecutor->execute(simulationTask);
+  std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
+}
+
+TEST(SimExecTestBerstein, HybridSimulatorDDExec) {
+  auto hybridSimulatorDDExecutor =
+      std::make_unique<HybridSimulatorDDExecutor>();
+  std::size_t const    n  = 40;
+  auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
+  SimulationTask const simulationTask(std::move(qc));
+  const auto result = hybridSimulatorDDExecutor->execute(simulationTask);
+  std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
+}
+
+TEST(SimExecTestBerstein, StochasticNoiseSimulatorExec) {
+  auto stochasticNoiseSimulatorExecutor =
+      std::make_unique<StochasticNoiseSimulatorExecutor>();
+  std::size_t const    n  = 30;
+  auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
+  SimulationTask const simulationTask(std::move(qc));
+  const auto result = stochasticNoiseSimulatorExecutor->execute(simulationTask);
+  std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
+}
+
+// Gives "C++ exception with description "Unsupported non-unitary functionality
+// 'Rst '." thrown in the test body." when run in dynamic

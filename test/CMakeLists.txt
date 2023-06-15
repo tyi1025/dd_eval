@@ -13,5 +13,12 @@ configure_file(${CMAKE_SOURCE_DIR}/test/sim_circuits.json
                ${CMAKE_CURRENT_BINARY_DIR}/sim_circuits.json COPYONLY)
 configure_file(${CMAKE_SOURCE_DIR}/test/ver_circuits.json
                ${CMAKE_CURRENT_BINARY_DIR}/ver_circuits.json COPYONLY)
-package_add_test(${PROJECT_NAME}_sim_test ${PROJECT_NAME} test_simexec.cpp)
+package_add_test(
+  ${PROJECT_NAME}_sim_test
+  ${PROJECT_NAME}
+  test_simexec_simple.cpp
+  test_simexec_ghz.cpp
+  test_simexec_berstein.cpp
+  test_simexec_qpe.cpp
+  test_simexec_grover.cpp)
 package_add_test(${PROJECT_NAME}_ver_test ${PROJECT_NAME} test_qcecexec.cpp)
