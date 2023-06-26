@@ -12,7 +12,7 @@ json DeterministicNoiseSimExecutor::execute(const SimulationTask& task) {
 
   auto const executionStart = std::chrono::steady_clock::now();
 
-  result["measurement_results"] = circuitSimulator->simulate(1024U);
+  result["measurement_results"] = circuitSimulator->deterministicSimulate();
   // Add memory usage
 
   auto const executionStop = std::chrono::steady_clock::now();
