@@ -14,7 +14,7 @@
 // QPE fails from n=65 on in ComplexTable line 151. See if later versions of the
 // dd package can fix this.
 
-TEST(SimExecTestQPE, CircuitSimulatorExec) {
+TEST(SimExecBenchmarkQPE, CircuitSimulatorExec) {
   auto circuitSimulatorExecutor = std::make_unique<CircuitSimulatorExecutor>();
   std::size_t const    n        = 65;
   auto                 qc       = std::make_unique<qc::QPE>(n, true, false);
@@ -22,7 +22,7 @@ TEST(SimExecTestQPE, CircuitSimulatorExec) {
   EXPECT_DEATH(circuitSimulatorExecutor->execute(simulationTask), "Assertion");
 }
 
-TEST(SimExecTestQPE, UnitarySimRecursiveExec) {
+TEST(SimExecBenchmarkQPE, UnitarySimRecursiveExec) {
   auto unitarySimRecursiveExecutor =
       std::make_unique<UnitarySimRecursiveExecutor>();
   std::size_t const    n  = 65;
@@ -32,7 +32,7 @@ TEST(SimExecTestQPE, UnitarySimRecursiveExec) {
                "Assertion");
 }
 
-TEST(SimExecTestQPE, UnitarySimSequentialExec) {
+TEST(SimExecBenchmarkQPE, UnitarySimSequentialExec) {
   auto unitarySimSequentialExecutor =
       std::make_unique<UnitarySimSequentialExecutor>();
   std::size_t const    n  = 65;

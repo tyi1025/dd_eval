@@ -10,5 +10,7 @@ if(NOT TARGET gtest OR NOT TARGET gmock)
                    EXCLUDE_FROM_ALL)
 endif()
 
-package_add_test(${PROJECT_NAME}_sim_benchmark ${PROJECT_NAME}
-                 test_simexec_qpe.cpp)
+package_add_test(
+  ${PROJECT_NAME}_sim_benchmark ${PROJECT_NAME} benchmark_simexec_qpe.cpp
+  benchmark_simexec_ghz.cpp benchmark_simexec_berstein.cpp
+  benchmark_simexec_grover.cpp)

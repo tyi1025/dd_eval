@@ -11,34 +11,52 @@
 
 #include "gtest/gtest.h"
 
-TEST(SimExecTestBerstein, HybridSimulatorAmplitudeExec) {
+TEST(SimExecBenchmarkBerstein, HybridSimulatorAmplitudeExec) {
   auto hybridSimulatorAmplitudeExecutor =
       std::make_unique<HybridSimulatorAmplitudeExecutor>();
-  std::size_t const    n  = 3;
+  std::size_t const    n  = 25;
   auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
   SimulationTask const simulationTask(std::move(qc));
   const auto result = hybridSimulatorAmplitudeExecutor->execute(simulationTask);
   std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
 }
 
-TEST(SimExecTestBerstein, HybridSimulatorDDExec) {
+TEST(SimExecBenchmarkBerstein, HybridSimulatorDDExec) {
   auto hybridSimulatorDDExecutor =
       std::make_unique<HybridSimulatorDDExecutor>();
-  std::size_t const    n  = 8;
+  std::size_t const    n  = 40;
   auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
   SimulationTask const simulationTask(std::move(qc));
   const auto result = hybridSimulatorDDExecutor->execute(simulationTask);
   std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
 }
 
-TEST(SimExecTestBerstein, StochasticNoiseSimulatorExec) {
+TEST(SimExecBenchmarkBerstein, StochasticNoiseSimulatorExec) {
   auto stochasticNoiseSimulatorExecutor =
       std::make_unique<StochasticNoiseSimulatorExecutor>();
-  std::size_t const    n  = 5;
+  std::size_t const    n  = 30;
   auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
   SimulationTask const simulationTask(std::move(qc));
   const auto result = stochasticNoiseSimulatorExecutor->execute(simulationTask);
   std::cout << result << "\n";
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() >
+              1000000);
+  EXPECT_TRUE(result["construction_time"].get<int>() +
+                  result["execution_time"].get<int>() <
+              300000000);
 }
 
 // Gives "C++ exception with description "Unsupported non-unitary functionality
