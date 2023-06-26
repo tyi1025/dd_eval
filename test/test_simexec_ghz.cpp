@@ -4,9 +4,6 @@
 #include "executors/DeterministicNoiseSimExecutor.hpp"
 #include "executors/HybridSimulatorAmplitudeExecutor.hpp"
 #include "executors/HybridSimulatorDDExecutor.hpp"
-#include "executors/StochasticNoiseSimulatorExecutor.hpp"
-#include "executors/UnitarySimRecursiveExecutor.hpp"
-#include "executors/UnitarySimSequentialExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
