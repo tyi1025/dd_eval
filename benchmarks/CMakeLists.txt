@@ -5,7 +5,7 @@ if(NOT TARGET gtest OR NOT TARGET gmock)
       CACHE BOOL "" FORCE)
 
   # store path to googletest in variable
-  set(GTEST_PATH "extern/qcec/extern/qfr/extern/dd_package/extern/googletest")
+  set(GTEST_PATH "extern/ddsim/extern/qfr/extern/dd_package/extern/googletest")
   add_subdirectory("${PROJECT_SOURCE_DIR}/${GTEST_PATH}" "${GTEST_PATH}"
                    EXCLUDE_FROM_ALL)
 endif()
