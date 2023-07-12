@@ -10,4 +10,5 @@ if(NOT TARGET gtest OR NOT TARGET gmock)
                    EXCLUDE_FROM_ALL)
 endif()
 
-package_add_test(${PROJECT_NAME}_qcec_benchmark ${PROJECT_NAME})
+package_add_test(${PROJECT_NAME}_qcec_benchmark ${PROJECT_NAME}
+                 benchmark_qcecexec_dummy.cpp)
