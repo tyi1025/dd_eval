@@ -1,14 +1,15 @@
-#include "executors/CircuitSimulatorExecutor.hpp"
+#include "executors/UnitarySimSequentialExecutor.hpp"
 
-#include "CircuitSimulator.hpp"
+#include "UnitarySimulator.hpp"
 
-json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
+json UnitarySimSequentialExecutor::execute(const SimulationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto circuitSimulator =
-      std::make_unique<CircuitSimulator<>>(std::move(qc), 23);
+  auto circuitSimulator = std::make_unique<UnitarySimulator<>>(
+      std::move(qc), ApproximationInfo{}, 23,
+      UnitarySimulator<>::Mode::Sequential);
 
   auto const executionStart = std::chrono::steady_clock::now();
 

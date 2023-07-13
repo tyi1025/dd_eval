@@ -1,18 +1,18 @@
-#include "executors/CircuitSimulatorExecutor.hpp"
+#include "executors/DeterministicNoiseSimExecutor.hpp"
 
-#include "CircuitSimulator.hpp"
+#include "DeterministicNoiseSimulator.hpp"
 
-json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
+json DeterministicNoiseSimExecutor::execute(const SimulationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
   auto circuitSimulator =
-      std::make_unique<CircuitSimulator<>>(std::move(qc), 23);
+      std::make_unique<DeterministicNoiseSimulator<>>(std::move(qc), 23);
 
   auto const executionStart = std::chrono::steady_clock::now();
 
-  result["measurement_results"] = circuitSimulator->simulate(1024U);
+  result["measurement_results"] = circuitSimulator->deterministicSimulate();
   // Add memory usage
 
   auto const executionStop = std::chrono::steady_clock::now();
