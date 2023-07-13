@@ -24,9 +24,14 @@ public:
     this->runAlternatingChecker = run;
   };
 
-  bool sequentialApplicationScheme = false;
-  bool oneToOneApplicationScheme   = false;
+  void disableAllCheckers() {
+    this->runConstructionChecker = false;
+    this->runSimulationChecker   = false;
+    this->runAlternatingChecker  = false;
+  };
 
+  bool sequentialApplicationScheme   = false;
+  bool oneToOneApplicationScheme     = false;
   bool proportionalApplicationScheme = true;
   bool lookaheadApplicationScheme    = false;
   bool gateCostApplicationScheme     = false;
@@ -49,5 +54,13 @@ public:
 
   void setGateCostApplicationScheme(bool ac) {
     this->gateCostApplicationScheme = ac;
+  };
+
+  void disableAllApplicationSchemes() {
+    this->sequentialApplicationScheme   = false;
+    this->oneToOneApplicationScheme     = false;
+    this->proportionalApplicationScheme = false;
+    this->lookaheadApplicationScheme    = false;
+    this->gateCostApplicationScheme     = false;
   };
 };

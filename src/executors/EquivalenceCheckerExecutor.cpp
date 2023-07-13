@@ -1,6 +1,7 @@
 #include "executors/EquivalenceCheckerExecutor.hpp"
 
 #include "EquivalenceCheckingManager.hpp"
+#include "checker/dd/applicationscheme/ApplicationScheme.hpp"
 
 json EquivalenceCheckerExecutor::execute(const VerificationTask& task) {
   json       result;
@@ -20,9 +21,30 @@ json EquivalenceCheckerExecutor::execute(const VerificationTask& task) {
   if (this->runAlternatingChecker) {
     equivalenceCheckingManager->setAlternatingChecker(true);
   }
+  if (this->sequentialApplicationScheme) {
+    equivalenceCheckingManager->setApplicationScheme(
+        ec::ApplicationSchemeType::Sequential);
+  }
 
-  equivalenceCheckingManager->setApplicationScheme(
-      this->lookaheadApplicationScheme);
+  if (this->oneToOneApplicationScheme) {
+    equivalenceCheckingManager->setApplicationScheme(
+        ec::ApplicationSchemeType::OneToOne);
+  }
+
+  if (this->lookaheadApplicationScheme) {
+    equivalenceCheckingManager->setApplicationScheme(
+        ec::ApplicationSchemeType::Lookahead);
+  }
+
+  if (this->gateCostApplicationScheme) {
+    equivalenceCheckingManager->setApplicationScheme(
+        ec::ApplicationSchemeType::GateCost);
+  }
+
+  if (this->proportionalApplicationScheme) {
+    equivalenceCheckingManager->setApplicationScheme(
+        ec::ApplicationSchemeType::Proportional);
+  }
 
   equivalenceCheckingManager->setParallel(false);
 
