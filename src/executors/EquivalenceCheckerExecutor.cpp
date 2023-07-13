@@ -52,6 +52,8 @@ json EquivalenceCheckerExecutor::execute(const VerificationTask& task) {
     throw std::invalid_argument(
         "Lookahead only works for the alternating checker");
   }
+
+  equivalenceCheckingManager->setSeed(15);
   auto const executionStart = std::chrono::steady_clock::now();
 
   equivalenceCheckingManager->run();
