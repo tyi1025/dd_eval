@@ -57,6 +57,10 @@ protected:
         std::make_unique<EquivalenceCheckerExecutor>();
     ddAlternatingCheckerExecutorLookahead->disableAllApplicationSchemes();
     ddAlternatingCheckerExecutorLookahead->setLookaheadApplicationScheme(true);
+    ddAlternatingCheckerExecutorOneToOne =
+        std::make_unique<EquivalenceCheckerExecutor>();
+    ddAlternatingCheckerExecutorOneToOne->disableAllApplicationSchemes();
+    ddAlternatingCheckerExecutorOneToOne->setOneToOneApplicationScheme(true);
     ddConstructionCheckerExecutor =
         std::make_unique<EquivalenceCheckerExecutor>();
     ddConstructionCheckerExecutor->disableAllCheckers();
@@ -72,6 +76,12 @@ protected:
         std::make_unique<EquivalenceCheckerExecutor>();
     ddSimulationCheckerExecutor->disableAllCheckers();
     ddSimulationCheckerExecutor->setRunSimulationChecker(true);
+    ddSimulationCheckerExecutorGateCost =
+        std::make_unique<EquivalenceCheckerExecutor>();
+    ddSimulationCheckerExecutorGateCost->disableAllCheckers();
+    ddSimulationCheckerExecutorGateCost->setRunSimulationChecker(true);
+    ddSimulationCheckerExecutorGateCost->disableAllApplicationSchemes();
+    ddSimulationCheckerExecutorGateCost->setGateCostApplicationScheme(true);
   }
 
   VerificationTask verificationTask;
@@ -80,11 +90,15 @@ protected:
   std::unique_ptr<EquivalenceCheckerExecutor> ddAlternatingCheckerExecutor;
   std::unique_ptr<EquivalenceCheckerExecutor>
       ddAlternatingCheckerExecutorLookahead;
+  std::unique_ptr<EquivalenceCheckerExecutor>
+      ddAlternatingCheckerExecutorOneToOne;
   std::unique_ptr<EquivalenceCheckerExecutor> ddConstructionCheckerExecutor;
   std::unique_ptr<EquivalenceCheckerExecutor>
       ddConstructionCheckerExecutorSequential;
   std::unique_ptr<EquivalenceCheckerExecutor> ddSimulationCheckerExecutor;
-  TestConfigurationQCEC                       test;
+  std::unique_ptr<EquivalenceCheckerExecutor>
+                        ddSimulationCheckerExecutorGateCost;
+  TestConfigurationQCEC test;
 };
 
 INSTANTIATE_TEST_SUITE_P(
@@ -112,6 +126,22 @@ TEST_P(QCECExecTest, AlternatingVerificationExecutorLookahead) {
       ddAlternatingCheckerExecutorLookahead->isLookaheadApplicationScheme());
   const auto result =
       ddAlternatingCheckerExecutorLookahead->execute(verificationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("check_results"));
+  EXPECT_EQ(result["check_results"]["equivalence"], test.expectedEquivalence);
+
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(QCECExecTest, AlternatingVerificationExecutorOneToOne) {
+  ASSERT_TRUE(
+      ddAlternatingCheckerExecutorOneToOne->isOneToOneApplicationScheme());
+  const auto result =
+      ddAlternatingCheckerExecutorOneToOne->execute(verificationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
   ASSERT_TRUE(result.contains("check_results"));
@@ -169,8 +199,24 @@ TEST_P(QCECExecTest, DDConstructionCheckerExecutorSequential) {
 }
 
 TEST_P(QCECExecTest, DDSimulationCheckerExecutor) {
-  const auto result = ddSimulationCheckerExecutor->execute(verificationTask);
   ASSERT_TRUE(ddSimulationCheckerExecutor->isRunSimulationChecker());
+  const auto result = ddSimulationCheckerExecutor->execute(verificationTask);
+  std::cout << "Results:\n" << result.dump(2U) << std::endl;
+
+  ASSERT_TRUE(result.contains("check_results"));
+
+  EXPECT_TRUE(result.contains("construction_time"));
+  EXPECT_TRUE(result.contains("execution_time"));
+  EXPECT_TRUE(result.contains("executor"));
+  EXPECT_TRUE(result.contains("task"));
+}
+
+TEST_P(QCECExecTest, DDSimulationCheckerExecutorGateCost) {
+  ASSERT_TRUE(ddSimulationCheckerExecutorGateCost->isRunSimulationChecker());
+  ASSERT_TRUE(
+      ddSimulationCheckerExecutorGateCost->isGateCostApplicationScheme());
+  const auto result =
+      ddSimulationCheckerExecutorGateCost->execute(verificationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
   ASSERT_TRUE(result.contains("check_results"));
