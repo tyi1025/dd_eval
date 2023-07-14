@@ -14,5 +14,4 @@ configure_file(${CMAKE_SOURCE_DIR}/test/sim_circuits.json
 configure_file(${CMAKE_SOURCE_DIR}/test/ver_circuits.json
                ${CMAKE_CURRENT_BINARY_DIR}/ver_circuits.json COPYONLY)
 package_add_test(${PROJECT_NAME}_sim_test ${PROJECT_NAME} test_simexec.cpp)
-package_add_test(${PROJECT_NAME}_ver_test ${PROJECT_NAME} test_qcecexec.cpp
-                 test_qcecexec_circs.cpp)
+package_add_test(${PROJECT_NAME}_ver_test ${PROJECT_NAME} test_qcecexec.cpp)
