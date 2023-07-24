@@ -8,13 +8,10 @@ public:
   json execute(const SimulationTask& task) override;
 
   [[nodiscard]] std::string getIdentifier() const override {
-    if (runAmplitude) {
-      return "hybrid_schrodinger_feynman_simulator_Amplitude";
-    }
     if (runDD) {
-      return "hybrid_schrodinger_feynman_simulator_DD";
+      return "hybrid_schrodinger_feynman_simulator_dd";
     }
-    return "hybrid_schrodinger_feynman_simulator";
+    return "hybrid_schrodinger_feynman_simulator_amplitude";
   };
 
   [[nodiscard]] bool isRunAmplitude() const { return runAmplitude; }
