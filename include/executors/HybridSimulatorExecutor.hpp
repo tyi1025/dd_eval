@@ -17,11 +17,6 @@ public:
     return "hybrid_schrodinger_feynman_simulator";
   };
 
-private:
-  bool runAmplitude = true;
-  bool runDD        = false;
-
-public:
   [[nodiscard]] bool isRunAmplitude() const { return runAmplitude; }
 
   void setRunAmplitude(bool run) { runAmplitude = run; }
@@ -29,4 +24,8 @@ public:
   [[nodiscard]] bool isRunDd() const { return runDD; }
 
   void setRunDd(bool run) { runDD = run; }
+
+private:
+  bool runAmplitude = true;
+  bool runDD        = false;
 };
