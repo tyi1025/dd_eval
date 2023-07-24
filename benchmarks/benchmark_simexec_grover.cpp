@@ -1,8 +1,7 @@
 #include "QuantumComputation.hpp"
 #include "algorithms/Grover.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
-#include "executors/UnitarySimRecursiveExecutor.hpp"
-#include "executors/UnitarySimSequentialExecutor.hpp"
+#include "executors/UnitarySimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
@@ -24,7 +23,9 @@ TEST(SimExecBenchmarkGrover, CircuitSimulatorExec) {
 
 TEST(SimExecBenchmarkGrover, UnitarySimSequentialExec) {
   auto unitarySimSequentialExecutor =
-      std::make_unique<UnitarySimSequentialExecutor>();
+      std::make_unique<UnitarySimulatorExecutor>();
+  unitarySimSequentialExecutor->setRecursive(false);
+  unitarySimSequentialExecutor->setSequential(true);
   std::size_t const    n  = 22;
   auto                 qc = std::make_unique<qc::Grover>(n);
   SimulationTask const simulationTask(std::move(qc));
@@ -40,7 +41,7 @@ TEST(SimExecBenchmarkGrover, UnitarySimSequentialExec) {
 
 TEST(SimExecBenchmarkGrover, UnitarySimRecursiveExec) {
   auto unitarySimRecursiveExecutor =
-      std::make_unique<UnitarySimRecursiveExecutor>();
+      std::make_unique<UnitarySimulatorExecutor>();
   std::size_t const    n  = 22;
   auto                 qc = std::make_unique<qc::Grover>(n);
   SimulationTask const simulationTask(std::move(qc));

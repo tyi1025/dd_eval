@@ -1,7 +1,6 @@
 #include "algorithms/QPE.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
-#include "executors/UnitarySimRecursiveExecutor.hpp"
-#include "executors/UnitarySimSequentialExecutor.hpp"
+#include "executors/UnitarySimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
@@ -19,7 +18,7 @@ TEST(SimExecBenchmarkQPE, CircuitSimulatorExec) {
 
 TEST(SimExecBenchmarkQPE, UnitarySimRecursiveExec) {
   auto unitarySimRecursiveExecutor =
-      std::make_unique<UnitarySimRecursiveExecutor>();
+      std::make_unique<UnitarySimulatorExecutor>();
   std::size_t const    n  = 65;
   auto                 qc = std::make_unique<qc::QPE>(n, true, false);
   SimulationTask const simulationTask(std::move(qc));
@@ -29,7 +28,9 @@ TEST(SimExecBenchmarkQPE, UnitarySimRecursiveExec) {
 
 TEST(SimExecBenchmarkQPE, UnitarySimSequentialExec) {
   auto unitarySimSequentialExecutor =
-      std::make_unique<UnitarySimSequentialExecutor>();
+      std::make_unique<UnitarySimulatorExecutor>();
+  unitarySimSequentialExecutor->setRecursive(false);
+  unitarySimSequentialExecutor->setSequential(true);
   std::size_t const    n  = 65;
   auto                 qc = std::make_unique<qc::QPE>(n, true, false);
   SimulationTask const simulationTask(std::move(qc));

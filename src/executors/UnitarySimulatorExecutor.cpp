@@ -1,19 +1,26 @@
-#include "executors/UnitarySimSequentialExecutor.hpp"
+#include "executors/UnitarySimulatorExecutor.hpp"
 
 #include "UnitarySimulator.hpp"
 
-json UnitarySimSequentialExecutor::execute(const SimulationTask& task) {
+json UnitarySimulatorExecutor::execute(const SimulationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto circuitSimulator = std::make_unique<UnitarySimulator<>>(
-      std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED,
-      UnitarySimulator<>::Mode::Sequential);
+
+  std::unique_ptr<UnitarySimulator<>> unitarySimulator;
+  if (this->recursive) {
+    unitarySimulator = std::make_unique<UnitarySimulator<>>(
+        std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED);
+  } else {
+    unitarySimulator = std::make_unique<UnitarySimulator<>>(
+        std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED,
+        UnitarySimulator<>::Mode::Sequential);
+  }
 
   auto const executionStart = std::chrono::steady_clock::now();
 
-  result["measurement_results"] = circuitSimulator->simulate(1024U);
+  result["measurement_results"] = unitarySimulator->simulate(1024U);
   // Add memory usage
 
   auto const executionStop = std::chrono::steady_clock::now();

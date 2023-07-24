@@ -3,8 +3,7 @@
 #include "executors/DeterministicNoiseSimExecutor.hpp"
 #include "executors/HybridSimulatorExecutor.hpp"
 #include "executors/StochasticNoiseSimulatorExecutor.hpp"
-#include "executors/UnitarySimRecursiveExecutor.hpp"
-#include "executors/UnitarySimSequentialExecutor.hpp"
+#include "executors/UnitarySimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
@@ -124,8 +123,8 @@ TEST_P(DDSIMExecTest, StochasticNoiseSimExec) {
 }
 
 TEST_P(DDSIMExecTest, UnitarySimRecursiveExec) {
-  std::unique_ptr<UnitarySimRecursiveExecutor> unitarySimRecursiveExecutor =
-      std::make_unique<UnitarySimRecursiveExecutor>();
+  std::unique_ptr<UnitarySimulatorExecutor> unitarySimRecursiveExecutor =
+      std::make_unique<UnitarySimulatorExecutor>();
   const auto result = unitarySimRecursiveExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
@@ -137,8 +136,11 @@ TEST_P(DDSIMExecTest, UnitarySimRecursiveExec) {
 }
 
 TEST_P(DDSIMExecTest, UnitarySimSequentialExec) {
-  std::unique_ptr<UnitarySimSequentialExecutor> unitarySimSequentialExecutor =
-      std::make_unique<UnitarySimSequentialExecutor>();
+  std::unique_ptr<UnitarySimulatorExecutor> unitarySimSequentialExecutor =
+      std::make_unique<UnitarySimulatorExecutor>();
+  unitarySimSequentialExecutor->setRecursive(false);
+  unitarySimSequentialExecutor->setSequential(true);
+
   const auto result = unitarySimSequentialExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 

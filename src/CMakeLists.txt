@@ -15,7 +15,7 @@ if(NOT TARGET ${PROJECT_NAME})
     ${PROJECT_SOURCE_DIR}/include/executors/HybridSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/DeterministicNoiseSimExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/StochasticNoiseSimulatorExecutor.hpp
-    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimRecursiveExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimSequentialExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
@@ -25,8 +25,7 @@ if(NOT TARGET ${PROJECT_NAME})
     executors/HybridSimulatorExecutor.cpp
     executors/DeterministicNoiseSimExecutor.cpp
     executors/StochasticNoiseSimulatorExecutor.cpp
-    executors/UnitarySimRecursiveExecutor.cpp
-    executors/UnitarySimSequentialExecutor.cpp
+    executors/UnitarySimulatorExecutor.cpp
     tasks/SimulationTask.cpp
     tasks/VerificationTask.cpp)
   # set include directories
