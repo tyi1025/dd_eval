@@ -7,8 +7,8 @@ json StochasticNoiseSimulatorExecutor::execute(const SimulationTask& task) {
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto circuitSimulator =
-      std::make_unique<StochasticNoiseSimulator<>>(std::move(qc), 1, 1, 23);
+  auto circuitSimulator = std::make_unique<StochasticNoiseSimulator<>>(
+      std::move(qc), 1, 1, constants::GLOBAL_SEED);
 
   auto const executionStart = std::chrono::steady_clock::now();
 

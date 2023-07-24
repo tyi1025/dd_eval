@@ -8,7 +8,7 @@ json UnitarySimRecursiveExecutor::execute(const SimulationTask& task) {
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
   auto circuitSimulator = std::make_unique<UnitarySimulator<>>(
-      std::move(qc), ApproximationInfo{}, 23);
+      std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED);
 
   auto const executionStart = std::chrono::steady_clock::now();
 

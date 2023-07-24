@@ -11,10 +11,10 @@ json HybridSimulatorExecutor::execute(const SimulationTask& task) {
   std::unique_ptr<HybridSchrodingerFeynmanSimulator<>> hybridSimulator;
   if (this->isRunAmplitude()) {
     hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(
-        std::move(qc), ApproximationInfo{}, 23);
+        std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED);
   } else {
     hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(
-        std::move(qc), ApproximationInfo{}, 23,
+        std::move(qc), ApproximationInfo{}, constants::GLOBAL_SEED,
         HybridSchrodingerFeynmanSimulator<>::Mode::DD);
   }
   auto const executionStart = std::chrono::steady_clock::now();

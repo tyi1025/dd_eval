@@ -1,5 +1,9 @@
 #pragma once
 
+namespace constants {
+const int GLOBAL_SEED = 15;
+}
+
 #include "Task.hpp"
 
 #include <nlohmann/json.hpp>
