@@ -12,5 +12,5 @@ endif()
 
 package_add_test(
   ${PROJECT_NAME}_sim_benchmark ${PROJECT_NAME} benchmark_simexec_qpe.cpp
-  benchmark_simexec_ghz.cpp benchmark_simexec_berstein.cpp
+  benchmark_simexec_ghz.cpp benchmark_simexec_bernstein.cpp
   benchmark_simexec_grover.cpp)
