@@ -1,8 +1,7 @@
 #include "QuantumComputation.hpp"
 #include "algorithms/BernsteinVazirani.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
-#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
-#include "executors/HybridSimulatorDDExecutor.hpp"
+#include "executors/HybridSimulatorExecutor.hpp"
 #include "executors/StochasticNoiseSimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
@@ -10,7 +9,7 @@
 
 TEST(SimExecBenchmarkBerstein, HybridSimulatorAmplitudeExec) {
   auto hybridSimulatorAmplitudeExecutor =
-      std::make_unique<HybridSimulatorAmplitudeExecutor>();
+      std::make_unique<HybridSimulatorExecutor>();
   std::size_t const    n  = 25;
   auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
   SimulationTask const simulationTask(std::move(qc));
@@ -25,8 +24,9 @@ TEST(SimExecBenchmarkBerstein, HybridSimulatorAmplitudeExec) {
 }
 
 TEST(SimExecBenchmarkBerstein, HybridSimulatorDDExec) {
-  auto hybridSimulatorDDExecutor =
-      std::make_unique<HybridSimulatorDDExecutor>();
+  auto hybridSimulatorDDExecutor = std::make_unique<HybridSimulatorExecutor>();
+  hybridSimulatorDDExecutor->setRunAmplitude(false);
+  hybridSimulatorDDExecutor->setRunDd(true);
   std::size_t const    n  = 40;
   auto                 qc = std::make_unique<qc::BernsteinVazirani>(n, false);
   SimulationTask const simulationTask(std::move(qc));

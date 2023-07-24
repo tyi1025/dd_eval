@@ -1,8 +1,7 @@
 #include "QuantumComputation.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
 #include "executors/DeterministicNoiseSimExecutor.hpp"
-#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
-#include "executors/HybridSimulatorDDExecutor.hpp"
+#include "executors/HybridSimulatorExecutor.hpp"
 #include "executors/StochasticNoiseSimulatorExecutor.hpp"
 #include "executors/UnitarySimRecursiveExecutor.hpp"
 #include "executors/UnitarySimSequentialExecutor.hpp"
@@ -81,9 +80,9 @@ TEST_P(DDSIMExecTest, DeterministicNoiseSimExec) {
 }
 
 TEST_P(DDSIMExecTest, HybridSimulatorAmplitudeExec) {
-  std::unique_ptr<HybridSimulatorAmplitudeExecutor>
-      hybridSimulatorAmplitudeExecutor =
-          std::make_unique<HybridSimulatorAmplitudeExecutor>();
+  std::unique_ptr<HybridSimulatorExecutor> hybridSimulatorAmplitudeExecutor =
+      std::make_unique<HybridSimulatorExecutor>();
+  ASSERT_TRUE(hybridSimulatorAmplitudeExecutor->isRunAmplitude());
   const auto result = hybridSimulatorAmplitudeExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
@@ -95,8 +94,11 @@ TEST_P(DDSIMExecTest, HybridSimulatorAmplitudeExec) {
 }
 
 TEST_P(DDSIMExecTest, HybridSimulatorDDExec) {
-  std::unique_ptr<HybridSimulatorDDExecutor> hybridSimulatorDDExecutor =
-      std::make_unique<HybridSimulatorDDExecutor>();
+  std::unique_ptr<HybridSimulatorExecutor> hybridSimulatorDDExecutor =
+      std::make_unique<HybridSimulatorExecutor>();
+  hybridSimulatorDDExecutor->setRunAmplitude(false);
+  hybridSimulatorDDExecutor->setRunDd(true);
+  ASSERT_TRUE(hybridSimulatorDDExecutor->isRunDd());
   const auto result = hybridSimulatorDDExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 

@@ -2,14 +2,14 @@
 #include "algorithms/Entanglement.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
 #include "executors/DeterministicNoiseSimExecutor.hpp"
-#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
+#include "executors/HybridSimulatorExecutor.hpp"
 #include "tasks/SimulationTask.hpp"
 
 #include "gtest/gtest.h"
 
 TEST(SimExecBenchmarkGHZ, HybridSimulatorAmplitudeExec) {
   auto hybridSimulatorAmplitudeExecutor =
-      std::make_unique<HybridSimulatorAmplitudeExecutor>();
+      std::make_unique<HybridSimulatorExecutor>();
   auto                 qc = std::make_unique<qc::Entanglement>(25);
   SimulationTask const simulationTask(std::move(qc));
   const auto result = hybridSimulatorAmplitudeExecutor->execute(simulationTask);

@@ -1,15 +1,22 @@
-#include "executors/HybridSimulatorAmplitudeExecutor.hpp"
+#include "executors/HybridSimulatorExecutor.hpp"
 
 #include "HybridSchrodingerFeynmanSimulator.hpp"
 
-json HybridSimulatorAmplitudeExecutor::execute(const SimulationTask& task) {
+json HybridSimulatorExecutor::execute(const SimulationTask& task) {
   json       result;
   auto const constructionStart = std::chrono::steady_clock::now();
 
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(
-      std::move(qc), ApproximationInfo{}, 23);
 
+  std::unique_ptr<HybridSchrodingerFeynmanSimulator<>> hybridSimulator;
+  if (this->isRunAmplitude()) {
+    hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(
+        std::move(qc), ApproximationInfo{}, 23);
+  } else {
+    hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(
+        std::move(qc), ApproximationInfo{}, 23,
+        HybridSchrodingerFeynmanSimulator<>::Mode::DD);
+  }
   auto const executionStart = std::chrono::steady_clock::now();
 
   result["measurement_results"] = hybridSimulator->simulate(1024U);
