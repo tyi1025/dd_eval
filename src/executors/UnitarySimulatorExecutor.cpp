@@ -20,17 +20,21 @@ json UnitarySimulatorExecutor::execute(const SimulationTask& task) {
 
   auto const executionStart = std::chrono::steady_clock::now();
 
-  result["measurement_results"] = unitarySimulator->simulate(1024U);
+  unitarySimulator->construct();
+  result["final_node_count"] = unitarySimulator->getFinalNodeCount();
+  result["max_node_count"]   = unitarySimulator->getMaxNodeCount();
+
   // Add memory usage
 
-  auto const executionStop = std::chrono::steady_clock::now();
+  //  auto const executionStop = std::chrono::steady_clock::now();
   auto const constructionTime =
       std::chrono::duration_cast<std::chrono::microseconds>(executionStart -
                                                             constructionStart);
-  auto const execTime = std::chrono::duration_cast<std::chrono::microseconds>(
-      executionStop - executionStart);
-  result["construction_time"] = constructionTime.count();
-  result["execution_time"]    = execTime.count();
+  //  auto const execTime =
+  //  std::chrono::duration_cast<std::chrono::microseconds>(
+  //      executionStop - executionStart);
+  result["simulator_construction_time"] = constructionTime.count();
+  result["unitary_execution_time"] = unitarySimulator->getConstructionTime();
 
   result["executor"] = getIdentifier();
   result["task"]     = task.getIdentifier();
