@@ -17,7 +17,6 @@ if(NOT TARGET ${PROJECT_NAME})
     ${PROJECT_SOURCE_DIR}/include/executors/DeterministicNoiseSimExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/StochasticNoiseSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimulatorExecutor.hpp
-    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimSequentialExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/VerificationTask.hpp
