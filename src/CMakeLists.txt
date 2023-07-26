@@ -10,6 +10,7 @@ if(NOT TARGET ${PROJECT_NAME})
   add_library(
     ${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/include/Executor.hpp
+    ${PROJECT_SOURCE_DIR}/include/SimulationExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/CircuitSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/AlternatingVerificationExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/HybridSimulatorExecutor.hpp

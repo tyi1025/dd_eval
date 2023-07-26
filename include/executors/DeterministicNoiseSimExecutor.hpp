@@ -1,13 +1,18 @@
 #pragma once
 
-#include "Executor.hpp"
-#include "tasks/SimulationTask.hpp"
+#include "DeterministicNoiseSimulator.hpp"
+#include "SimulationExecutor.hpp"
 
-class DeterministicNoiseSimExecutor : public Executor<SimulationTask> {
+class DeterministicNoiseSimExecutor
+    : public SimulationExecutor<DeterministicNoiseSimulator<>> {
 public:
-  json execute(const SimulationTask& task) override;
-
   [[nodiscard]] std::string getIdentifier() const override {
     return "deterministic_noise_simulator";
-  };
+  }
+
+  std::unique_ptr<DeterministicNoiseSimulator<>>
+  constructSimulator(const SimulationTask& task) override;
+
+  json runSimulator(
+      std::unique_ptr<DeterministicNoiseSimulator<>> simulator) override;
 };

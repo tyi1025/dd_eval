@@ -1,31 +1,20 @@
 #include "executors/CircuitSimulatorExecutor.hpp"
 
-#include "CircuitSimulator.hpp"
-
-json CircuitSimulatorExecutor::execute(const SimulationTask& task) {
-  json       result;
-  auto const constructionStart = std::chrono::steady_clock::now();
-
+std::unique_ptr<CircuitSimulator<>>
+CircuitSimulatorExecutor::constructSimulator(const SimulationTask& task) {
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
   auto circuitSimulator = std::make_unique<CircuitSimulator<>>(
       std::move(qc), constants::GLOBAL_SEED);
 
-  auto const executionStart = std::chrono::steady_clock::now();
+  return circuitSimulator;
+  //    Meant to keep the qc construction in the superclass, but it reports
+  //    incomplete type
+}
 
-  result["measurement_results"] = circuitSimulator->simulate(1024U);
-  // Add memory usage
-
-  auto const executionStop = std::chrono::steady_clock::now();
-  auto const constructionTime =
-      std::chrono::duration_cast<std::chrono::microseconds>(executionStart -
-                                                            constructionStart);
-  auto const execTime = std::chrono::duration_cast<std::chrono::microseconds>(
-      executionStop - executionStart);
-  result["construction_time"] = constructionTime.count();
-  result["execution_time"]    = execTime.count();
-
-  result["executor"] = getIdentifier();
-  result["task"]     = task.getIdentifier();
-
+json CircuitSimulatorExecutor::runSimulator(
+    std::unique_ptr<CircuitSimulator<>> simulator) {
+  json result;
+  auto results                  = simulator->simulate(1024U);
+  result["measurement_results"] = results;
   return result;
 }

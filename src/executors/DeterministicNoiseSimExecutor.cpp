@@ -1,31 +1,18 @@
 #include "executors/DeterministicNoiseSimExecutor.hpp"
 
-#include "DeterministicNoiseSimulator.hpp"
-
-json DeterministicNoiseSimExecutor::execute(const SimulationTask& task) {
-  json       result;
-  auto const constructionStart = std::chrono::steady_clock::now();
-
+std::unique_ptr<DeterministicNoiseSimulator<>>
+DeterministicNoiseSimExecutor::constructSimulator(const SimulationTask& task) {
   auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
-  auto circuitSimulator = std::make_unique<DeterministicNoiseSimulator<>>(
-      std::move(qc), constants::GLOBAL_SEED);
+  auto deterministicNoiseSimulator =
+      std::make_unique<DeterministicNoiseSimulator<>>(std::move(qc),
+                                                      constants::GLOBAL_SEED);
+  return deterministicNoiseSimulator;
+}
 
-  auto const executionStart = std::chrono::steady_clock::now();
-
-  result["measurement_results"] = circuitSimulator->deterministicSimulate();
-  // Add memory usage
-
-  auto const executionStop = std::chrono::steady_clock::now();
-  auto const constructionTime =
-      std::chrono::duration_cast<std::chrono::microseconds>(executionStart -
-                                                            constructionStart);
-  auto const execTime = std::chrono::duration_cast<std::chrono::microseconds>(
-      executionStop - executionStart);
-  result["construction_time"] = constructionTime.count();
-  result["execution_time"]    = execTime.count();
-
-  result["executor"] = getIdentifier();
-  result["task"]     = task.getIdentifier();
-
+json DeterministicNoiseSimExecutor::runSimulator(
+    std::unique_ptr<DeterministicNoiseSimulator<>> simulator) {
+  json result;
+  auto results                  = simulator->deterministicSimulate();
+  result["measurement_results"] = results;
   return result;
 }
