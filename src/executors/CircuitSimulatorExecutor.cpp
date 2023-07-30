@@ -7,8 +7,6 @@ CircuitSimulatorExecutor::constructSimulator(
       std::move(qc), constants::GLOBAL_SEED);
 
   return circuitSimulator;
-  //    Meant to keep the qc construction in the superclass, but it reports
-  //    incomplete type
 }
 
 json CircuitSimulatorExecutor::runSimulator(
