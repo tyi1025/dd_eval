@@ -97,11 +97,13 @@ TEST_P(DDSIMExecTest, HybridSimulatorDDExec) {
       std::make_unique<HybridSimulatorExecutor>();
   hybridSimulatorDDExecutor->setRunAmplitude(false);
   hybridSimulatorDDExecutor->setRunDd(true);
-  ASSERT_TRUE(hybridSimulatorDDExecutor->isRunDd());
+
   const auto result = hybridSimulatorDDExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
   ASSERT_TRUE(result.contains("measurement_results"));
+  ASSERT_TRUE(result["executor"] ==
+              ("hybrid_schrodinger_feynman_simulator_dd"));
   EXPECT_TRUE(result.contains("construction_time"));
   EXPECT_TRUE(result.contains("execution_time"));
   EXPECT_TRUE(result.contains("executor"));
@@ -128,9 +130,9 @@ TEST_P(DDSIMExecTest, UnitarySimRecursiveExec) {
   const auto result = unitarySimRecursiveExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
-  ASSERT_TRUE(result.contains("measurement_results"));
-  EXPECT_TRUE(result.contains("construction_time"));
-  EXPECT_TRUE(result.contains("execution_time"));
+  ASSERT_TRUE(result.contains("final_node_count"));
+  ASSERT_TRUE(result.contains("max_node_count"));
+  EXPECT_TRUE(result.contains("unitary_execution_time"));
   EXPECT_TRUE(result.contains("executor"));
   EXPECT_TRUE(result.contains("task"));
 }
@@ -144,9 +146,10 @@ TEST_P(DDSIMExecTest, UnitarySimSequentialExec) {
   const auto result = unitarySimSequentialExecutor->execute(simulationTask);
   std::cout << "Results:\n" << result.dump(2U) << std::endl;
 
-  ASSERT_TRUE(result.contains("measurement_results"));
-  EXPECT_TRUE(result.contains("construction_time"));
-  EXPECT_TRUE(result.contains("execution_time"));
+  ASSERT_TRUE(result.contains("final_node_count"));
+  ASSERT_TRUE(result.contains("max_node_count"));
+  ASSERT_TRUE(result["executor"] == ("unitary_simulator_sequential"));
+  EXPECT_TRUE(result.contains("unitary_execution_time"));
   EXPECT_TRUE(result.contains("executor"));
   EXPECT_TRUE(result.contains("task"));
 }

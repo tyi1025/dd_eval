@@ -1,18 +1,23 @@
 #pragma once
 
-#include "Executor.hpp"
-#include "tasks/SimulationTask.hpp"
+#include "HybridSchrodingerFeynmanSimulator.hpp"
+#include "SimulationExecutor.hpp"
 
-class HybridSimulatorExecutor : public Executor<SimulationTask> {
+class HybridSimulatorExecutor
+    : public SimulationExecutor<HybridSchrodingerFeynmanSimulator<>> {
 public:
-  json execute(const SimulationTask& task) override;
-
   [[nodiscard]] std::string getIdentifier() const override {
     if (runDD) {
       return "hybrid_schrodinger_feynman_simulator_dd";
     }
     return "hybrid_schrodinger_feynman_simulator_amplitude";
   };
+
+  std::unique_ptr<HybridSchrodingerFeynmanSimulator<>>
+  constructSimulator(const SimulationTask& task) override;
+
+  json runSimulator(
+      std::unique_ptr<HybridSchrodingerFeynmanSimulator<>> simulator) override;
 
   [[nodiscard]] bool isRunAmplitude() const { return runAmplitude; }
 

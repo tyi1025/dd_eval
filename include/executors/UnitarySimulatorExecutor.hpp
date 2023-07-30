@@ -1,11 +1,14 @@
 #pragma once
 
-#include "Executor.hpp"
-#include "tasks/SimulationTask.hpp"
+#include "SimulationExecutor.hpp"
+#include "UnitarySimulator.hpp"
 
-class UnitarySimulatorExecutor : public Executor<SimulationTask> {
+class UnitarySimulatorExecutor : public SimulationExecutor<UnitarySimulator<>> {
 public:
-  json execute(const SimulationTask& task) override;
+  std::unique_ptr<UnitarySimulator<>>
+  constructSimulator(const SimulationTask& task) override;
+
+  json runSimulator(std::unique_ptr<UnitarySimulator<>> simulator) override;
 
   [[nodiscard]] std::string getIdentifier() const override {
     if (sequential) {
