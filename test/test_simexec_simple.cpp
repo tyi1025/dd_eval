@@ -1,4 +1,3 @@
-#include "QuantumComputation.hpp"
 #include "executors/CircuitSimulatorExecutor.hpp"
 #include "executors/DeterministicNoiseSimExecutor.hpp"
 #include "executors/HybridSimulatorExecutor.hpp"

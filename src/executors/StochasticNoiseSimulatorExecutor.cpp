@@ -2,8 +2,7 @@
 
 std::unique_ptr<StochasticNoiseSimulator<>>
 StochasticNoiseSimulatorExecutor::constructSimulator(
-    const SimulationTask& task) {
-  auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
+    std::unique_ptr<qc::QuantumComputation>& qc) {
   auto stochasticNoiseSimulator = std::make_unique<StochasticNoiseSimulator<>>(
       std::move(qc), 1, 1, constants::GLOBAL_SEED);
   return stochasticNoiseSimulator;

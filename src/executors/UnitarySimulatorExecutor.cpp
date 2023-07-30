@@ -1,8 +1,8 @@
 #include "executors/UnitarySimulatorExecutor.hpp"
 
 std::unique_ptr<UnitarySimulator<>>
-UnitarySimulatorExecutor::constructSimulator(const SimulationTask& task) {
-  auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
+UnitarySimulatorExecutor::constructSimulator(
+    std::unique_ptr<qc::QuantumComputation>& qc) {
   std::unique_ptr<UnitarySimulator<>> unitarySimulator;
   if (this->recursive) {
     unitarySimulator = std::make_unique<UnitarySimulator<>>(

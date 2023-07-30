@@ -14,7 +14,7 @@ public:
   };
 
   std::unique_ptr<HybridSchrodingerFeynmanSimulator<>>
-  constructSimulator(const SimulationTask& task) override;
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) override;
 
   json runSimulator(
       std::unique_ptr<HybridSchrodingerFeynmanSimulator<>> simulator) override;

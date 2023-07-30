@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Executor.hpp"
+#include "QuantumComputation.hpp"
 #include "Simulator.hpp"
 #include "tasks/SimulationTask.hpp"
 
@@ -9,13 +10,15 @@ template <class S> class SimulationExecutor : public Executor<SimulationTask> {
   //    How to use this while disregarding the template parameter of the
   //    Simulator class?
 public:
-  virtual std::unique_ptr<S> constructSimulator(const SimulationTask& task) = 0;
+  virtual std::unique_ptr<S>
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) = 0;
 
   virtual json runSimulator(std::unique_ptr<S> simulator) = 0;
 
   json execute(const SimulationTask& task) override {
+    auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
     auto const constructionStart = std::chrono::steady_clock::now();
-    auto       simulator         = constructSimulator(task);
+    auto       simulator         = constructSimulator(qc);
     auto const executionStart    = std::chrono::steady_clock::now();
 
     json       result        = runSimulator(std::move(simulator));

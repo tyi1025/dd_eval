@@ -6,7 +6,7 @@
 class UnitarySimulatorExecutor : public SimulationExecutor<UnitarySimulator<>> {
 public:
   std::unique_ptr<UnitarySimulator<>>
-  constructSimulator(const SimulationTask& task) override;
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) override;
 
   json runSimulator(std::unique_ptr<UnitarySimulator<>> simulator) override;
 

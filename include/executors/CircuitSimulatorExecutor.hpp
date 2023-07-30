@@ -10,7 +10,7 @@ public:
   };
 
   std::unique_ptr<CircuitSimulator<>>
-  constructSimulator(const SimulationTask& task) override;
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) override;
 
   json runSimulator(std::unique_ptr<CircuitSimulator<>> simulator) override;
 };

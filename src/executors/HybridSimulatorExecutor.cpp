@@ -1,8 +1,8 @@
 #include "executors/HybridSimulatorExecutor.hpp"
 
 std::unique_ptr<HybridSchrodingerFeynmanSimulator<>>
-HybridSimulatorExecutor::constructSimulator(const SimulationTask& task) {
-  auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
+HybridSimulatorExecutor::constructSimulator(
+    std::unique_ptr<qc::QuantumComputation>& qc) {
   std::unique_ptr<HybridSchrodingerFeynmanSimulator<>> hybridSimulator;
   if (this->isRunAmplitude()) {
     hybridSimulator = std::make_unique<HybridSchrodingerFeynmanSimulator<>>(

@@ -1,8 +1,8 @@
 #include "executors/CircuitSimulatorExecutor.hpp"
 
 std::unique_ptr<CircuitSimulator<>>
-CircuitSimulatorExecutor::constructSimulator(const SimulationTask& task) {
-  auto qc = std::make_unique<qc::QuantumComputation>(task.getQc()->clone());
+CircuitSimulatorExecutor::constructSimulator(
+    std::unique_ptr<qc::QuantumComputation>& qc) {
   auto circuitSimulator = std::make_unique<CircuitSimulator<>>(
       std::move(qc), constants::GLOBAL_SEED);
 

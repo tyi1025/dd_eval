@@ -11,7 +11,7 @@ public:
   }
 
   std::unique_ptr<DeterministicNoiseSimulator<>>
-  constructSimulator(const SimulationTask& task) override;
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) override;
 
   json runSimulator(
       std::unique_ptr<DeterministicNoiseSimulator<>> simulator) override;
