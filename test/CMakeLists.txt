@@ -18,7 +18,10 @@ package_add_test(
   ${PROJECT_NAME}
   test_simexec_simple.cpp
   test_circ_sim_exec.cpp
-  test_simexec_ghz.cpp
-  test_simexec_bernstein.cpp
-  test_simexec_grover.cpp)
+  test_deter_noise_sim_exec.cpp
+  test_stoch_noise_sim_exec.cpp
+  test_hybrid_sim_exec.cpp
+  test_hybrid_sim_exec_dd.cpp
+  test_uni_sim_exec.cpp
+  test_uni_sim_exec_seq.cpp)
 package_add_test(${PROJECT_NAME}_ver_test ${PROJECT_NAME} test_qcecexec.cpp)
