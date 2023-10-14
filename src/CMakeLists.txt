@@ -10,16 +10,24 @@ if(NOT TARGET ${PROJECT_NAME})
   add_library(
     ${PROJECT_NAME}
     ${PROJECT_SOURCE_DIR}/include/Executor.hpp
+    ${PROJECT_SOURCE_DIR}/include/SimulationExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/CircuitSimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/executors/AlternatingVerificationExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/HybridSimulatorExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/DeterministicNoiseSimExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/StochasticNoiseSimulatorExecutor.hpp
+    ${PROJECT_SOURCE_DIR}/include/executors/UnitarySimulatorExecutor.hpp
     ${PROJECT_SOURCE_DIR}/include/Task.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/SimulationTask.hpp
     ${PROJECT_SOURCE_DIR}/include/tasks/VerificationTask.hpp
     executors/CircuitSimulatorExecutor.cpp
     executors/AlternatingVerificationExecutor.cpp
+    executors/HybridSimulatorExecutor.cpp
+    executors/DeterministicNoiseSimExecutor.cpp
+    executors/StochasticNoiseSimulatorExecutor.cpp
+    executors/UnitarySimulatorExecutor.cpp
     tasks/SimulationTask.cpp
     tasks/VerificationTask.cpp)
-
   # set include directories
   target_include_directories(
     ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include

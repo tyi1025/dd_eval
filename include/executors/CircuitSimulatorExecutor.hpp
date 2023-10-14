@@ -1,13 +1,16 @@
 #pragma once
 
-#include "Executor.hpp"
-#include "tasks/SimulationTask.hpp"
+#include "CircuitSimulator.hpp"
+#include "SimulationExecutor.hpp"
 
-class CircuitSimulatorExecutor : public Executor<SimulationTask> {
+class CircuitSimulatorExecutor : public SimulationExecutor<CircuitSimulator<>> {
 public:
-  json execute(const SimulationTask& task) override;
-
   [[nodiscard]] std::string getIdentifier() const override {
     return "circuit_simulator";
   };
+
+  std::unique_ptr<CircuitSimulator<>>
+  constructSimulator(std::unique_ptr<qc::QuantumComputation>& qc) override;
+
+  json runSimulator(std::unique_ptr<CircuitSimulator<>> simulator) override;
 };
